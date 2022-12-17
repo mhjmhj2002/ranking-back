@@ -1,6 +1,5 @@
 package com.mhj.ranking.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mhj.ranking.entity.Pais;
+import com.mhj.ranking.model.PaisModel;
 import com.mhj.ranking.service.PaisService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,11 +31,10 @@ public class PaisController {
 	private PaisService service;
 
 	@GetMapping("/paises")
-	public ResponseEntity<List<Pais>> getAll() {
+	public ResponseEntity<List<PaisModel>> getAll() {
 		try {
-			List<Pais> paises = new ArrayList<Pais>();
 
-			service.findAll().forEach(paises::add);
+			List<PaisModel> paises = service.findAll();
 
 			if (paises.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -49,37 +47,36 @@ public class PaisController {
 	}
 
 	@GetMapping("/paises/{id}")
-	public ResponseEntity<Pais> getPaisById(@PathVariable("id") Long id) {
-		Optional<Pais> tutorialData = service.findById(id);
+	public ResponseEntity<PaisModel> getPaisById(@PathVariable("id") Long id) {
+		Optional<PaisModel> paisData = service.findById(id);
 
-		if (tutorialData.isPresent()) {
-			return new ResponseEntity<>(tutorialData.get(), HttpStatus.OK);
+		if (paisData.isPresent()) {
+			return new ResponseEntity<>(paisData.get(), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
 	@PostMapping("/paises")
-	public ResponseEntity<Pais> createPais(@RequestBody Pais tutorial) {
+	public ResponseEntity<PaisModel> save(@RequestBody PaisModel pais) {
 		try {
-			Pais _tutorial = service
-					.save(new Pais(tutorial.getTitle(), tutorial.getDescription(), false));
-			return new ResponseEntity<>(_tutorial, HttpStatus.CREATED);
+			PaisModel paisModel = service.save(pais);
+			return new ResponseEntity<>(paisModel, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@PutMapping("/paises/{id}")
-	public ResponseEntity<Pais> updatePais(@PathVariable("id") long id, @RequestBody Pais tutorial) {
-		Optional<Pais> tutorialData = service.findById(id);
+	public ResponseEntity<PaisModel> updatePais(@PathVariable("id") long id, @RequestBody PaisModel pais) {
+		Optional<PaisModel> paisData = service.findById(id);
 
-		if (tutorialData.isPresent()) {
-			Pais _tutorial = tutorialData.get();
-			_tutorial.setTitle(tutorial.getTitle());
-			_tutorial.setDescription(tutorial.getDescription());
-			_tutorial.setPublished(tutorial.isPublished());
-			return new ResponseEntity<>(service.save(_tutorial), HttpStatus.OK);
+		if (paisData.isPresent()) {
+			PaisModel _pais = paisData.get();
+			_pais.setTitle(pais.getTitle());
+			_pais.setDescription(pais.getDescription());
+			_pais.setPublished(pais.isPublished());
+			return new ResponseEntity<>(service.save(_pais), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -95,8 +92,8 @@ public class PaisController {
 		}
 	}
 
-	@DeleteMapping("/paises")
-	public ResponseEntity<HttpStatus> deleteAllPaiss() {
+	/*@DeleteMapping("/paises")
+	public ResponseEntity<HttpStatus> deleteAllPaises() {
 		try {
 			service.deleteAll();
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -107,9 +104,9 @@ public class PaisController {
 	}
 
 	@GetMapping("/paises/published")
-	public ResponseEntity<List<Pais>> findByPublished() {
+	public ResponseEntity<List<PaisModel>> findByPublished() {
 		try {
-			List<Pais> paises = service.findByPublished(true);
+			List<PaisModel> paises = service.findByPublished(true);
 
 			if (paises.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -118,6 +115,6 @@ public class PaisController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-	}
+	}*/
 
 }

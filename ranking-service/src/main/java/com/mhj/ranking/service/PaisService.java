@@ -40,26 +40,30 @@ public class PaisService {
 		return repository.findAll();
 	}
 
-	public void create(Pais current) {
-		repository.saveAndFlush(current);
+	public PaisModel save(PaisModel paisModel) {
+		Pais pais = mapper.toEntity(paisModel);
+		pais = repository.saveAndFlush(pais);
+		return mapper.toModel(pais);
 	}
 
 	public void edit(Pais current) {
 		repository.saveAndFlush(current);
 	}
 
-	public void remove(Pais current) {
-		repository.delete(current);
+	public void deleteById(Long id) {
+		Optional<Pais> paisOptional = repository.findById(id);
+		repository.delete(paisOptional.get());
 
 	}
 
-	public List<Pais> findAll() {
-		return repository.findAll();
+	public List<PaisModel> findAll() {
+		return mapper.toModel(repository.findAll());
 	}
 
-	public PaisModel findById(Long key) {
+	public Optional<PaisModel> findById(Long key) {
 		Optional<Pais> paisOptional = repository.findById(key.longValue());
-		return mapper.toModel(paisOptional.get());
+		PaisModel model = mapper.toModel(paisOptional.get());
+		return Optional.of(model);
 	}
 
 }
