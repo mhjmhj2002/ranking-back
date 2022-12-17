@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="JogoEditDlg" widgetVar="JogoEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditJogoTitle}">
+            <h:form id="JogoEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{jogoController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditJogoLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{jogoController.selected.id}" title="#{bundle.EditJogoTitle_id}" required="true" requiredMessage="#{bundle.EditJogoRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditJogoLabel_placarEquipeUm}" for="placarEquipeUm" />
+                        <p:inputText id="placarEquipeUm" value="#{jogoController.selected.placarEquipeUm}" title="#{bundle.EditJogoTitle_placarEquipeUm}" required="true" requiredMessage="#{bundle.EditJogoRequiredMessage_placarEquipeUm}"/>
+                        <p:outputLabel value="#{bundle.EditJogoLabel_placarEquipeDois}" for="placarEquipeDois" />
+                        <p:inputText id="placarEquipeDois" value="#{jogoController.selected.placarEquipeDois}" title="#{bundle.EditJogoTitle_placarEquipeDois}" required="true" requiredMessage="#{bundle.EditJogoRequiredMessage_placarEquipeDois}"/>
+                        <p:outputLabel value="#{bundle.EditJogoLabel_idEquipeUm}" for="idEquipeUm" />
+                        <p:selectOneMenu id="idEquipeUm" value="#{jogoController.selected.idEquipeUm}" required="true" requiredMessage="#{bundle.EditJogoRequiredMessage_idEquipeUm}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{equipeController.itemsAvailableSelectOne}"
+                                           var="idEquipeUmItem"
+                                           itemValue="#{idEquipeUmItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditJogoLabel_idEquipeDois}" for="idEquipeDois" />
+                        <p:selectOneMenu id="idEquipeDois" value="#{jogoController.selected.idEquipeDois}" required="true" requiredMessage="#{bundle.EditJogoRequiredMessage_idEquipeDois}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{equipeController.itemsAvailableSelectOne}"
+                                           var="idEquipeDoisItem"
+                                           itemValue="#{idEquipeDoisItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditJogoLabel_idFase}" for="idFase" />
+                        <p:selectOneMenu id="idFase" value="#{jogoController.selected.idFase}" required="true" requiredMessage="#{bundle.EditJogoRequiredMessage_idFase}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{faseController.itemsAvailableSelectOne}"
+                                           var="idFaseItem"
+                                           itemValue="#{idFaseItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditJogoLabel_idGrupo}" for="idGrupo" />
+                        <p:selectOneMenu id="idGrupo" value="#{jogoController.selected.idGrupo}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{grupoController.itemsAvailableSelectOne}"
+                                           var="idGrupoItem"
+                                           itemValue="#{idGrupoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditJogoLabel_idTorneio}" for="idTorneio" />
+                        <p:selectOneMenu id="idTorneio" value="#{jogoController.selected.idTorneio}" required="true" requiredMessage="#{bundle.EditJogoRequiredMessage_idTorneio}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{torneioController.itemsAvailableSelectOne}"
+                                           var="idTorneioItem"
+                                           itemValue="#{idTorneioItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{jogoController.update}" value="#{bundle.Save}" update="display,:JogoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'JogoEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="JogoEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TemporadaCreateDlg" widgetVar="TemporadaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTemporadaTitle}">
+            <h:form id="TemporadaCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{temporadaController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateTemporadaLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{temporadaController.selected.id}" title="#{bundle.CreateTemporadaTitle_id}" required="true" requiredMessage="#{bundle.CreateTemporadaRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreateTemporadaLabel_nome}" for="nome" />
+                        <p:inputText id="nome" value="#{temporadaController.selected.nome}" title="#{bundle.CreateTemporadaTitle_nome}" required="true" requiredMessage="#{bundle.CreateTemporadaRequiredMessage_nome}"/>
+                        <p:outputLabel value="#{bundle.CreateTemporadaLabel_anoInicio}" for="anoInicio" />
+                        <p:inputText id="anoInicio" value="#{temporadaController.selected.anoInicio}" title="#{bundle.CreateTemporadaTitle_anoInicio}" required="true" requiredMessage="#{bundle.CreateTemporadaRequiredMessage_anoInicio}"/>
+                        <p:outputLabel value="#{bundle.CreateTemporadaLabel_anoFim}" for="anoFim" />
+                        <p:inputText id="anoFim" value="#{temporadaController.selected.anoFim}" title="#{bundle.CreateTemporadaTitle_anoFim}" required="true" requiredMessage="#{bundle.CreateTemporadaRequiredMessage_anoFim}"/>
+                        <p:outputLabel value="#{bundle.CreateTemporadaLabel_idTorneio}" for="idTorneio" />
+                        <p:selectOneMenu id="idTorneio" value="#{temporadaController.selected.idTorneio}" required="true" requiredMessage="#{bundle.EditTemporadaRequiredMessage_idTorneio}">
+                            <f:selectItems value="#{torneioController.itemsAvailableSelectOne}"
+                                           var="idTorneioItem"
+                                           itemValue="#{idTorneioItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{temporadaController.create}" value="#{bundle.Save}" update="display,:TemporadaListForm:datalist,:growl" oncomplete="handleSubmit(args,'TemporadaCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TemporadaCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
