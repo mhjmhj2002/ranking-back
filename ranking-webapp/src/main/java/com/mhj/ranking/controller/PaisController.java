@@ -16,15 +16,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mhj.ranking.config.NotFoundException;
 import com.mhj.ranking.model.PaisModel;
 import com.mhj.ranking.service.PaisService;
-
-import lombok.extern.slf4j.Slf4j;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/pais")
-@Slf4j
+//@Slf4j
 public class PaisController {
 
 	@Autowired
@@ -68,16 +67,12 @@ public class PaisController {
 	}
 
 	@PutMapping("/paises/{id}")
-	public ResponseEntity<PaisModel> updatePais(@PathVariable("id") long id, @RequestBody PaisModel pais) {
-		Optional<PaisModel> paisData = service.findById(id);
-
-		if (paisData.isPresent()) {
-			PaisModel _pais = paisData.get();
-			_pais.setTitle(pais.getTitle());
-			_pais.setDescription(pais.getDescription());
-			_pais.setPublished(pais.isPublished());
-			return new ResponseEntity<>(service.save(_pais), HttpStatus.OK);
-		} else {
+	public ResponseEntity<PaisModel> updatePais(@PathVariable("id") long id, @RequestBody PaisModel paisModel) {
+		PaisModel response;
+		try {
+			response = service.update(id, paisModel);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (NotFoundException e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
@@ -92,29 +87,21 @@ public class PaisController {
 		}
 	}
 
-	/*@DeleteMapping("/paises")
-	public ResponseEntity<HttpStatus> deleteAllPaises() {
-		try {
-			service.deleteAll();
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
-	}
-
-	@GetMapping("/paises/published")
-	public ResponseEntity<List<PaisModel>> findByPublished() {
-		try {
-			List<PaisModel> paises = service.findByPublished(true);
-
-			if (paises.isEmpty()) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-			return new ResponseEntity<>(paises, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}*/
+	/*
+	 * @DeleteMapping("/paises") public ResponseEntity<HttpStatus> deleteAllPaises()
+	 * { try { service.deleteAll(); return new
+	 * ResponseEntity<>(HttpStatus.NO_CONTENT); } catch (Exception e) { return new
+	 * ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); }
+	 * 
+	 * }
+	 * 
+	 * @GetMapping("/paises/published") public ResponseEntity<List<PaisModel>>
+	 * findByPublished() { try { List<PaisModel> paises =
+	 * service.findByPublished(true);
+	 * 
+	 * if (paises.isEmpty()) { return new ResponseEntity<>(HttpStatus.NO_CONTENT); }
+	 * return new ResponseEntity<>(paises, HttpStatus.OK); } catch (Exception e) {
+	 * return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); } }
+	 */
 
 }

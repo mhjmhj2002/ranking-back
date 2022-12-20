@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.mhj.ranking.config.NotFoundException;
 import com.mhj.ranking.entity.Pais;
 import com.mhj.ranking.mapper.PaisMapper;
 import com.mhj.ranking.model.PaisModel;
@@ -64,6 +65,20 @@ public class PaisService {
 		Optional<Pais> paisOptional = repository.findById(key.longValue());
 		PaisModel model = mapper.toModel(paisOptional.get());
 		return Optional.of(model);
+	}
+
+	public PaisModel update(long id, PaisModel paisModel) throws NotFoundException {
+		Optional<Pais> paisOptional = repository.findById(id);
+
+		if (paisOptional.isPresent()) {
+			Pais pais = paisOptional.get();
+			pais.setNome(paisModel.getNome());
+			pais = repository.save(pais);
+			return mapper.toModel(pais);
+		} else {
+			throw new NotFoundException("Nao encontrado");
+		}
+
 	}
 
 }
