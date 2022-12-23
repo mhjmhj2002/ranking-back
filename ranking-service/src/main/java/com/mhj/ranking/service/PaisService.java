@@ -1,5 +1,6 @@
 package com.mhj.ranking.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,7 +59,14 @@ public class PaisService {
 	}
 
 	public List<PaisModel> findAll() {
-		return mapper.toModel(repository.findAll());
+		List<PaisModel> paisesModel = new ArrayList<>();
+		
+		repository.findAll().stream().forEach(p -> {
+			PaisModel model = mapper.toModel(p);
+			paisesModel.add(model);
+		});
+		
+		return paisesModel;
 	}
 
 	public Optional<PaisModel> findById(Long key) {
@@ -78,6 +86,11 @@ public class PaisService {
 		} else {
 			throw new NotFoundException("Nao encontrado");
 		}
+
+	}
+
+	public void teste(final Pageable pageable) {
+		Page<Object> paises = repository.findAll(pageable).map(mapper::toModel);
 
 	}
 

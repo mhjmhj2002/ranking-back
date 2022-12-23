@@ -13,8 +13,12 @@
 	<groupId>com.mhj.ranking</groupId>
 	<artifactId>ranking-service</artifactId>
 	<packaging>jar</packaging>
-<!-- 	<name>ranking-service</name> -->
-<!-- 	<description>Demo project for Spring Boot</description> -->
+	<!-- <name>ranking-service</name> -->
+	<!-- <description>Demo project for Spring Boot</description> -->
+	
+	<properties>
+	<mapstruct.version>1.3.1.Final</mapstruct.version>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -32,7 +36,7 @@
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
-			<version>1.4.2.Final</version>
+			<version>${mapstruct.version}</version>
 		</dependency>
 
 		<dependency>
@@ -46,7 +50,7 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -70,5 +74,36 @@
 		</dependency>
 
 	</dependencies>
+
+	<build>
+
+<!-- 		<finalName>${project.atifactId}</finalName> -->
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>${mapstruct.version}</version>
+						</path>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+
+		</plugins>
+
+
+	</build>
 
 </project>

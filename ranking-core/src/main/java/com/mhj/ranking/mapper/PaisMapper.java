@@ -11,9 +11,9 @@ import com.mhj.ranking.model.PaisModel;
 @Mapper(componentModel = "spring")
 public interface PaisMapper {
 
-	public PaisModel toModel(Pais pais);
+	public PaisModel toModel(final Pais pais);
 	
-	@InheritInverseConfiguration
+	@InheritInverseConfiguration(name = "toModel")
 	public Pais toEntity(PaisModel paisModel);
 
 	List<PaisModel> toModel(List<Pais> paises);
