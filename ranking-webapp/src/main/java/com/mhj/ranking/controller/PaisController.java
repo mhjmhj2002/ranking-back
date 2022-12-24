@@ -20,6 +20,10 @@ import com.mhj.ranking.config.NotFoundException;
 import com.mhj.ranking.model.PaisModel;
 import com.mhj.ranking.service.PaisService;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/pais")
@@ -29,6 +33,12 @@ public class PaisController {
 	@Autowired
 	private PaisService service;
 
+	@ApiOperation(value = "Retorna uma lista de pessoas")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Retorna a lista de pessoa"),
+			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+			@ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+	})
 	@GetMapping("/paises")
 	public ResponseEntity<List<PaisModel>> getAll() {
 		try {
