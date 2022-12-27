@@ -33,9 +33,9 @@ public class PaisController {
 	@Autowired
 	private PaisService service;
 
-	@ApiOperation(value = "Retorna uma lista de pessoas")
+	@ApiOperation(value = "Retorna uma lista de paises")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Retorna a lista de pessoa"),
+			@ApiResponse(code = 200, message = "Retorna a lista de paises"),
 			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 			@ApiResponse(code = 500, message = "Foi gerada uma exceção"),
 	})
