@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,6 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mhj.ranking.config.NotFoundException;
 import com.mhj.ranking.model.PaisModel;
 import com.mhj.ranking.service.PaisService;
+import com.mhj.ranking.util.AppConstants;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
@@ -31,17 +37,23 @@ public class PaisController {
 	@Autowired
 	private PaisService service;
 
-	/*@ApiOperation(value = "Retorna uma lista de paises")
+	@ApiOperation(value = "Retorna uma lista de paises")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Retorna a lista de paises"),
 			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 			@ApiResponse(code = 500, message = "Foi gerada uma exceção"),
 	})
 	@GetMapping("/paises")
-	public ResponseEntity<List<PaisModel>> getAll() {
+	@ResponseBody
+	public ResponseEntity<Page<PaisModel>> getAll(
+            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
+			) {
 		try {
 
-			List<PaisModel> paises = service.findAll();
+			Page<PaisModel> paises = service.findAll(pageNo, pageSize, sortBy, sortDir);
 
 			if (paises.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -51,7 +63,7 @@ public class PaisController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-	}*/
+	}
 
 	@GetMapping("/paises/{id}")
 	public ResponseEntity<PaisModel> getPaisById(@PathVariable("id") Long id) {
@@ -95,7 +107,7 @@ public class PaisController {
 		}
 	}
 	
-	@GetMapping("/paises")
+	/*@GetMapping("/paises")
 	@ResponseBody
 	public ResponseEntity<List<PaisModel>> findByNome(@RequestParam("nome") String nome) {
 		try {
@@ -110,7 +122,7 @@ public class PaisController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-	}
+	}*/
 
 	/*
 	 * @DeleteMapping("/paises") public ResponseEntity<HttpStatus> deleteAllPaises()

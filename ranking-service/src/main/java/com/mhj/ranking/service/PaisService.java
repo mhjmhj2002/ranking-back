@@ -7,8 +7,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mhj.ranking.config.NotFoundException;
@@ -59,15 +61,20 @@ public class PaisService {
 
 	}
 
-	public List<PaisModel> findAll() {
+	public Page<PaisModel> findAll(int pageNo, int pageSize, String sortBy, String sortDir) {
+		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+		
+		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+		
 		List<PaisModel> paisesModel = new ArrayList<>();
 		
-		repository.findAll().stream().forEach(p -> {
+		repository.findAll(pageable).stream().forEach(p -> {
 			PaisModel model = mapper.toModel(p);
 			paisesModel.add(model);
 		});
 		
-		return paisesModel;
+		return new PageImpl<>(paisesModel);
 	}
 
 	public Optional<PaisModel> findById(Long key) {
