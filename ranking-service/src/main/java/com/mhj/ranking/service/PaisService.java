@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -92,6 +93,22 @@ public class PaisService {
 	public void teste(final Pageable pageable) {
 		Page<Object> paises = repository.findAll(pageable).map(mapper::toModel);
 
+	}
+
+	public List<PaisModel> findByNome(String nome) {
+		Pais pais = new Pais();
+		pais.setNome(nome);
+		
+		Example<Pais> example = Example.of(pais);
+		
+		List<PaisModel> paisesModel = new ArrayList<>();
+		
+		repository.findAll(example).stream().forEach(p -> {
+			PaisModel model = mapper.toModel(p);
+			paisesModel.add(model);
+		});
+		
+		return paisesModel;
 	}
 
 }

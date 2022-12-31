@@ -14,15 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mhj.ranking.config.NotFoundException;
 import com.mhj.ranking.model.PaisModel;
 import com.mhj.ranking.service.PaisService;
-
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
@@ -33,7 +31,7 @@ public class PaisController {
 	@Autowired
 	private PaisService service;
 
-	@ApiOperation(value = "Retorna uma lista de paises")
+	/*@ApiOperation(value = "Retorna uma lista de paises")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Retorna a lista de paises"),
 			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
@@ -53,7 +51,7 @@ public class PaisController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-	}
+	}*/
 
 	@GetMapping("/paises/{id}")
 	public ResponseEntity<PaisModel> getPaisById(@PathVariable("id") Long id) {
@@ -94,6 +92,23 @@ public class PaisController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/paises")
+	@ResponseBody
+	public ResponseEntity<List<PaisModel>> findByNome(@RequestParam("nome") String nome) {
+		try {
+
+			List<PaisModel> paises = service.findByNome(nome);
+
+			if (paises.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+
+			return new ResponseEntity<>(paises, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
