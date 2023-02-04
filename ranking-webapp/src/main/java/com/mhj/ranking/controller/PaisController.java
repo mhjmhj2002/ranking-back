@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,17 +15,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mhj.ranking.config.NotFoundException;
 import com.mhj.ranking.model.PaisModel;
 import com.mhj.ranking.service.PaisService;
+import com.mhj.ranking.util.AppConstants;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/pais")
 //@Slf4j
@@ -40,10 +44,16 @@ public class PaisController {
 			@ApiResponse(code = 500, message = "Foi gerada uma exceção"),
 	})
 	@GetMapping("/paises")
-	public ResponseEntity<List<PaisModel>> getAll() {
+	@ResponseBody
+	public ResponseEntity<Page<PaisModel>> getAll(
+            @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+            @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
+			) {
 		try {
 
-			List<PaisModel> paises = service.findAll();
+			Page<PaisModel> paises = service.findAll(pageNo, pageSize, sortBy, sortDir);
 
 			if (paises.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -96,6 +106,23 @@ public class PaisController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	/*@GetMapping("/paises")
+	@ResponseBody
+	public ResponseEntity<List<PaisModel>> findByNome(@RequestParam("nome") String nome) {
+		try {
+
+			List<PaisModel> paises = service.findByNome(nome);
+
+			if (paises.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+
+			return new ResponseEntity<>(paises, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}*/
 
 	/*
 	 * @DeleteMapping("/paises") public ResponseEntity<HttpStatus> deleteAllPaises()

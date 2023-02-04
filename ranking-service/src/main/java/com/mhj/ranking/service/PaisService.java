@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mhj.ranking.config.NotFoundException;
@@ -58,15 +61,24 @@ public class PaisService {
 
 	}
 
-	public List<PaisModel> findAll() {
+	public Page<PaisModel> findAll(int pageNo, int pageSize, String sortBy, String sortDir) {
+		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+		
+		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+		
 		List<PaisModel> paisesModel = new ArrayList<>();
 		
-		repository.findAll().stream().forEach(p -> {
+		Page<Pais> findAll = repository.findAll(pageable);
+		
+		findAll.stream().forEach(p -> {
 			PaisModel model = mapper.toModel(p);
 			paisesModel.add(model);
 		});
 		
-		return paisesModel;
+		PageImpl<PaisModel> pageImpl = new PageImpl<>(paisesModel, pageable, findAll.getTotalElements());
+		
+		return pageImpl;
 	}
 
 	public Optional<PaisModel> findById(Long key) {
@@ -92,6 +104,22 @@ public class PaisService {
 	public void teste(final Pageable pageable) {
 		Page<Object> paises = repository.findAll(pageable).map(mapper::toModel);
 
+	}
+
+	public List<PaisModel> findByNome(String nome) {
+		Pais pais = new Pais();
+		pais.setNome(nome);
+		
+		Example<Pais> example = Example.of(pais);
+		
+		List<PaisModel> paisesModel = new ArrayList<>();
+		
+		repository.findAll(example).stream().forEach(p -> {
+			PaisModel model = mapper.toModel(p);
+			paisesModel.add(model);
+		});
+		
+		return paisesModel;
 	}
 
 }
