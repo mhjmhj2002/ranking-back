@@ -69,12 +69,16 @@ public class PaisService {
 		
 		List<PaisModel> paisesModel = new ArrayList<>();
 		
-		repository.findAll(pageable).stream().forEach(p -> {
+		Page<Pais> findAll = repository.findAll(pageable);
+		
+		findAll.stream().forEach(p -> {
 			PaisModel model = mapper.toModel(p);
 			paisesModel.add(model);
 		});
 		
-		return new PageImpl<>(paisesModel);
+		PageImpl<PaisModel> pageImpl = new PageImpl<>(paisesModel, pageable, findAll.getTotalElements());
+		
+		return pageImpl;
 	}
 
 	public Optional<PaisModel> findById(Long key) {
