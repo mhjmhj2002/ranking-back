@@ -17,9 +17,9 @@ public class DataSourceConfiguration {
 //		return DataSourceBuilder.create().build();
 
 		HikariDataSource hikari = new HikariDataSource();
-		hikari.setJdbcUrl("jdbc:mysql://mysql.mhj.kinghost.net:3306/mhj06?useSSL=false");
+		hikari.setJdbcUrl("jdbc:mysql://localhost:3306/mhj06?useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false");
 		hikari.addDataSourceProperty("driverClassName", "com.mysql.jdbc.Driver");
-		hikari.addDataSourceProperty("username", "mhj06");
+		hikari.addDataSourceProperty("username", "root");
 		hikari.addDataSourceProperty("password", "2y244y26");
 
 		hikari.setMaximumPoolSize(10);
