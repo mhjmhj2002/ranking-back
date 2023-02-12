@@ -65,6 +65,34 @@ public class PaisController {
 		}
 	}
 
+	@ApiOperation(value = "Retorna uma lista de paises")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Retorna a lista de paises"),
+			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
+			@ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+	})
+	@GetMapping("/paises/last")
+	@ResponseBody
+	public ResponseEntity<List<PaisModel>> getLast(
+            @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+            @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
+			) {
+		try {
+
+			List<PaisModel> paises = service.findLast(pageNo, pageSize, sortBy, sortDir);
+
+			if (paises.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+
+			return new ResponseEntity<>(paises, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	@GetMapping("/paises/{id}")
 	public ResponseEntity<PaisModel> getPaisById(@PathVariable("id") Long id) {
 		Optional<PaisModel> paisData = service.findById(id);

@@ -81,6 +81,13 @@ public class PaisService {
 		return pageImpl;
 	}
 
+	public List<PaisModel> findLast(int pageNo, int pageSize, String sortBy, String sortDir) {
+		
+		PageImpl<PaisModel> pageImpl = (PageImpl<PaisModel>) findAll(pageNo, pageSize, sortBy, sortDir);
+		
+		return pageImpl.getContent();
+	}
+
 	public Optional<PaisModel> findById(Long key) {
 		Optional<Pais> paisOptional = repository.findById(key.longValue());
 		PaisModel model = mapper.toModel(paisOptional.get());
