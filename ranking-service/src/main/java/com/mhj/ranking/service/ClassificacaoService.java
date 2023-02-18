@@ -14,22 +14,22 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mhj.ranking.config.NotFoundException;
-import com.mhj.ranking.entity.Equipe;
-import com.mhj.ranking.mapper.EquipeMapper;
-import com.mhj.ranking.model.EquipeModel;
-import com.mhj.ranking.repository.EquipeRepository;
+import com.mhj.ranking.entity.Classificacao;
+import com.mhj.ranking.mapper.ClassificacaoMapper;
+import com.mhj.ranking.model.ClassificacaoModel;
+import com.mhj.ranking.repository.ClassificacaoRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class EquipeService {
+public class ClassificacaoService {
 
 	@Autowired
-	private EquipeRepository repository;
+	private ClassificacaoRepository repository;
 
 	@Autowired
-	private EquipeMapper mapper;
+	private ClassificacaoMapper mapper;
 
 	public int count() {
 		Long count = repository.count();
@@ -37,68 +37,68 @@ public class EquipeService {
 		return count.intValue();
 	}
 
-	public List<Equipe> findRange(int pageNo, int pageSize) {
+	public List<Classificacao> findRange(int pageNo, int pageSize) {
 		Pageable paging = PageRequest.of(pageNo, pageSize);
-		Page<Equipe> pagedResult = repository.findAll(paging);
+		Page<Classificacao> pagedResult = repository.findAll(paging);
 		log.info("findRange: {}", pagedResult.getContent());
 //		return pagedResult.toList();
 		return repository.findAll();
 	}
 
-	public EquipeModel save(EquipeModel entityModel) {
-		Equipe entity = mapper.toEntity(entityModel);
+	public ClassificacaoModel save(ClassificacaoModel entityModel) {
+		Classificacao entity = mapper.toEntity(entityModel);
 		entity = repository.saveAndFlush(entity);
 		return mapper.toModel(entity);
 	}
 
-	public void edit(Equipe current) {
+	public void edit(Classificacao current) {
 		repository.saveAndFlush(current);
 	}
 
 	public void deleteById(Long id) {
-		Optional<Equipe> entityOptional = repository.findById(id);
+		Optional<Classificacao> entityOptional = repository.findById(id);
 		repository.delete(entityOptional.get());
 
 	}
 
-	public Page<EquipeModel> findAll(int pageNo, int pageSize, String sortBy, String sortDir) {
+	public Page<ClassificacaoModel> findAll(int pageNo, int pageSize, String sortBy, String sortDir) {
 		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
 		
 		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 		
-		List<EquipeModel> models = new ArrayList<>();
+		List<ClassificacaoModel> models = new ArrayList<>();
 		
-		Page<Equipe> findAll = repository.findAll(pageable);
+		Page<Classificacao> findAll = repository.findAll(pageable);
 		
 		findAll.stream().forEach(p -> {
-			EquipeModel model = mapper.toModel(p);
+			ClassificacaoModel model = mapper.toModel(p);
 			models.add(model);
 		});
 		
-		PageImpl<EquipeModel> pageImpl = new PageImpl<>(models, pageable, findAll.getTotalElements());
+		PageImpl<ClassificacaoModel> pageImpl = new PageImpl<>(models, pageable, findAll.getTotalElements());
 		
 		return pageImpl;
 	}
 
-	public List<EquipeModel> findLast(int pageNo, int pageSize, String sortBy, String sortDir) {
+	public List<ClassificacaoModel> findLast(int pageNo, int pageSize, String sortBy, String sortDir) {
 		
-		PageImpl<EquipeModel> pageImpl = (PageImpl<EquipeModel>) findAll(pageNo, pageSize, sortBy, sortDir);
+		PageImpl<ClassificacaoModel> pageImpl = (PageImpl<ClassificacaoModel>) findAll(pageNo, pageSize, sortBy, sortDir);
 		
 		return pageImpl.getContent();
 	}
 
-	public Optional<EquipeModel> findById(Long key) {
-		Optional<Equipe> entityOptional = repository.findById(key.longValue());
-		EquipeModel model = mapper.toModel(entityOptional.get());
+	public Optional<ClassificacaoModel> findById(Long key) {
+		Optional<Classificacao> entityOptional = repository.findById(key.longValue());
+		ClassificacaoModel model = mapper.toModel(entityOptional.get());
 		return Optional.of(model);
 	}
 
-	public EquipeModel update(long id, EquipeModel entityModel) throws NotFoundException {
-		Optional<Equipe> entityOptional = repository.findById(id);
+	public ClassificacaoModel update(long id, ClassificacaoModel entityModel) throws NotFoundException {
+		Optional<Classificacao> entityOptional = repository.findById(id);
 
 		if (entityOptional.isPresent()) {
-			Equipe entity = entityOptional.get();
+			Classificacao entity = entityOptional.get();
 //			entity.setNome(entityModel.getNome());
 			entity = repository.save(entity);
 			return mapper.toModel(entity);
@@ -113,16 +113,16 @@ public class EquipeService {
 
 	}
 
-	public List<EquipeModel> findByNome(String nome) {
-		Equipe entity = new Equipe();
-		entity.setNome(nome);
+	public List<ClassificacaoModel> findByNome(String nome) {
+		Classificacao entity = new Classificacao();
+//		entity.setNome(nome);
 		
-		Example<Equipe> example = Example.of(entity);
+		Example<Classificacao> example = Example.of(entity);
 		
-		List<EquipeModel> models = new ArrayList<>();
+		List<ClassificacaoModel> models = new ArrayList<>();
 		
 		repository.findAll(example).stream().forEach(p -> {
-			EquipeModel model = mapper.toModel(p);
+			ClassificacaoModel model = mapper.toModel(p);
 			models.add(model);
 		});
 		

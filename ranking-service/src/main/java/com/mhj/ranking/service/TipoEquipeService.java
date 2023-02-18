@@ -14,22 +14,22 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mhj.ranking.config.NotFoundException;
-import com.mhj.ranking.entity.Equipe;
-import com.mhj.ranking.mapper.EquipeMapper;
-import com.mhj.ranking.model.EquipeModel;
-import com.mhj.ranking.repository.EquipeRepository;
+import com.mhj.ranking.entity.TipoEquipe;
+import com.mhj.ranking.mapper.TipoEquipeMapper;
+import com.mhj.ranking.model.TipoEquipeModel;
+import com.mhj.ranking.repository.TipoEquipeRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class EquipeService {
+public class TipoEquipeService {
 
 	@Autowired
-	private EquipeRepository repository;
+	private TipoEquipeRepository repository;
 
 	@Autowired
-	private EquipeMapper mapper;
+	private TipoEquipeMapper mapper;
 
 	public int count() {
 		Long count = repository.count();
@@ -37,68 +37,68 @@ public class EquipeService {
 		return count.intValue();
 	}
 
-	public List<Equipe> findRange(int pageNo, int pageSize) {
+	public List<TipoEquipe> findRange(int pageNo, int pageSize) {
 		Pageable paging = PageRequest.of(pageNo, pageSize);
-		Page<Equipe> pagedResult = repository.findAll(paging);
+		Page<TipoEquipe> pagedResult = repository.findAll(paging);
 		log.info("findRange: {}", pagedResult.getContent());
 //		return pagedResult.toList();
 		return repository.findAll();
 	}
 
-	public EquipeModel save(EquipeModel entityModel) {
-		Equipe entity = mapper.toEntity(entityModel);
+	public TipoEquipeModel save(TipoEquipeModel entityModel) {
+		TipoEquipe entity = mapper.toEntity(entityModel);
 		entity = repository.saveAndFlush(entity);
 		return mapper.toModel(entity);
 	}
 
-	public void edit(Equipe current) {
+	public void edit(TipoEquipe current) {
 		repository.saveAndFlush(current);
 	}
 
 	public void deleteById(Long id) {
-		Optional<Equipe> entityOptional = repository.findById(id);
+		Optional<TipoEquipe> entityOptional = repository.findById(id);
 		repository.delete(entityOptional.get());
 
 	}
 
-	public Page<EquipeModel> findAll(int pageNo, int pageSize, String sortBy, String sortDir) {
+	public Page<TipoEquipeModel> findAll(int pageNo, int pageSize, String sortBy, String sortDir) {
 		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
 		
 		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 		
-		List<EquipeModel> models = new ArrayList<>();
+		List<TipoEquipeModel> models = new ArrayList<>();
 		
-		Page<Equipe> findAll = repository.findAll(pageable);
+		Page<TipoEquipe> findAll = repository.findAll(pageable);
 		
 		findAll.stream().forEach(p -> {
-			EquipeModel model = mapper.toModel(p);
+			TipoEquipeModel model = mapper.toModel(p);
 			models.add(model);
 		});
 		
-		PageImpl<EquipeModel> pageImpl = new PageImpl<>(models, pageable, findAll.getTotalElements());
+		PageImpl<TipoEquipeModel> pageImpl = new PageImpl<>(models, pageable, findAll.getTotalElements());
 		
 		return pageImpl;
 	}
 
-	public List<EquipeModel> findLast(int pageNo, int pageSize, String sortBy, String sortDir) {
+	public List<TipoEquipeModel> findLast(int pageNo, int pageSize, String sortBy, String sortDir) {
 		
-		PageImpl<EquipeModel> pageImpl = (PageImpl<EquipeModel>) findAll(pageNo, pageSize, sortBy, sortDir);
+		PageImpl<TipoEquipeModel> pageImpl = (PageImpl<TipoEquipeModel>) findAll(pageNo, pageSize, sortBy, sortDir);
 		
 		return pageImpl.getContent();
 	}
 
-	public Optional<EquipeModel> findById(Long key) {
-		Optional<Equipe> entityOptional = repository.findById(key.longValue());
-		EquipeModel model = mapper.toModel(entityOptional.get());
+	public Optional<TipoEquipeModel> findById(Long key) {
+		Optional<TipoEquipe> entityOptional = repository.findById(key.longValue());
+		TipoEquipeModel model = mapper.toModel(entityOptional.get());
 		return Optional.of(model);
 	}
 
-	public EquipeModel update(long id, EquipeModel entityModel) throws NotFoundException {
-		Optional<Equipe> entityOptional = repository.findById(id);
+	public TipoEquipeModel update(long id, TipoEquipeModel entityModel) throws NotFoundException {
+		Optional<TipoEquipe> entityOptional = repository.findById(id);
 
 		if (entityOptional.isPresent()) {
-			Equipe entity = entityOptional.get();
+			TipoEquipe entity = entityOptional.get();
 //			entity.setNome(entityModel.getNome());
 			entity = repository.save(entity);
 			return mapper.toModel(entity);
@@ -113,16 +113,16 @@ public class EquipeService {
 
 	}
 
-	public List<EquipeModel> findByNome(String nome) {
-		Equipe entity = new Equipe();
-		entity.setNome(nome);
+	public List<TipoEquipeModel> findByNome(String nome) {
+		TipoEquipe entity = new TipoEquipe();
+//		entity.setNome(nome);
 		
-		Example<Equipe> example = Example.of(entity);
+		Example<TipoEquipe> example = Example.of(entity);
 		
-		List<EquipeModel> models = new ArrayList<>();
+		List<TipoEquipeModel> models = new ArrayList<>();
 		
 		repository.findAll(example).stream().forEach(p -> {
-			EquipeModel model = mapper.toModel(p);
+			TipoEquipeModel model = mapper.toModel(p);
 			models.add(model);
 		});
 		

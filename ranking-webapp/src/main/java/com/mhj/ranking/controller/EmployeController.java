@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mhj.ranking.config.NotFoundException;
+import com.mhj.ranking.crud.service.PaisService;
 import com.mhj.ranking.model.PaisModel;
-import com.mhj.ranking.service.PaisService;
 import com.mhj.ranking.util.AppConstants;
 
 import io.swagger.annotations.ApiOperation;

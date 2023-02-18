@@ -45,10 +45,10 @@ public class GrupoService {
 		return repository.findAll();
 	}
 
-	public GrupoModel save(GrupoModel paisModel) {
-		Grupo pais = mapper.toEntity(paisModel);
-		pais = repository.saveAndFlush(pais);
-		return mapper.toModel(pais);
+	public GrupoModel save(GrupoModel entityModel) {
+		Grupo entity = mapper.toEntity(entityModel);
+		entity = repository.saveAndFlush(entity);
+		return mapper.toModel(entity);
 	}
 
 	public void edit(Grupo current) {
@@ -56,8 +56,8 @@ public class GrupoService {
 	}
 
 	public void deleteById(Long id) {
-		Optional<Grupo> paisOptional = repository.findById(id);
-		repository.delete(paisOptional.get());
+		Optional<Grupo> entityOptional = repository.findById(id);
+		repository.delete(entityOptional.get());
 
 	}
 
@@ -67,16 +67,16 @@ public class GrupoService {
 		
 		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 		
-		List<GrupoModel> paisesModel = new ArrayList<>();
+		List<GrupoModel> models = new ArrayList<>();
 		
 		Page<Grupo> findAll = repository.findAll(pageable);
 		
 		findAll.stream().forEach(p -> {
 			GrupoModel model = mapper.toModel(p);
-			paisesModel.add(model);
+			models.add(model);
 		});
 		
-		PageImpl<GrupoModel> pageImpl = new PageImpl<>(paisesModel, pageable, findAll.getTotalElements());
+		PageImpl<GrupoModel> pageImpl = new PageImpl<>(models, pageable, findAll.getTotalElements());
 		
 		return pageImpl;
 	}
@@ -89,19 +89,19 @@ public class GrupoService {
 	}
 
 	public Optional<GrupoModel> findById(Long key) {
-		Optional<Grupo> paisOptional = repository.findById(key.longValue());
-		GrupoModel model = mapper.toModel(paisOptional.get());
+		Optional<Grupo> entityOptional = repository.findById(key.longValue());
+		GrupoModel model = mapper.toModel(entityOptional.get());
 		return Optional.of(model);
 	}
 
-	public GrupoModel update(long id, GrupoModel paisModel) throws NotFoundException {
-		Optional<Grupo> paisOptional = repository.findById(id);
+	public GrupoModel update(long id, GrupoModel entityModel) throws NotFoundException {
+		Optional<Grupo> entityOptional = repository.findById(id);
 
-		if (paisOptional.isPresent()) {
-			Grupo pais = paisOptional.get();
-//			pais.setNome(paisModel.getNome());
-			pais = repository.save(pais);
-			return mapper.toModel(pais);
+		if (entityOptional.isPresent()) {
+			Grupo entity = entityOptional.get();
+//			entity.setNome(entityModel.getNome());
+			entity = repository.save(entity);
+			return mapper.toModel(entity);
 		} else {
 			throw new NotFoundException("Nao encontrado");
 		}
@@ -109,24 +109,24 @@ public class GrupoService {
 	}
 
 	public void teste(final Pageable pageable) {
-		Page<Object> paises = repository.findAll(pageable).map(mapper::toModel);
+		Page<Object> entites = repository.findAll(pageable).map(mapper::toModel);
 
 	}
 
 	public List<GrupoModel> findByNome(String nome) {
-		Grupo pais = new Grupo();
-		pais.setNome(nome);
+		Grupo entity = new Grupo();
+		entity.setNome(nome);
 		
-		Example<Grupo> example = Example.of(pais);
+		Example<Grupo> example = Example.of(entity);
 		
-		List<GrupoModel> paisesModel = new ArrayList<>();
+		List<GrupoModel> models = new ArrayList<>();
 		
 		repository.findAll(example).stream().forEach(p -> {
 			GrupoModel model = mapper.toModel(p);
-			paisesModel.add(model);
+			models.add(model);
 		});
 		
-		return paisesModel;
+		return models;
 	}
 
 }

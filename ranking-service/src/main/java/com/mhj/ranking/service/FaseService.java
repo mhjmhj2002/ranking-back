@@ -45,10 +45,10 @@ public class FaseService {
 		return repository.findAll();
 	}
 
-	public FaseModel save(FaseModel paisModel) {
-		Fase pais = mapper.toEntity(paisModel);
-		pais = repository.saveAndFlush(pais);
-		return mapper.toModel(pais);
+	public FaseModel save(FaseModel entityModel) {
+		Fase entity = mapper.toEntity(entityModel);
+		entity = repository.saveAndFlush(entity);
+		return mapper.toModel(entity);
 	}
 
 	public void edit(Fase current) {
@@ -56,8 +56,8 @@ public class FaseService {
 	}
 
 	public void deleteById(Long id) {
-		Optional<Fase> paisOptional = repository.findById(id);
-		repository.delete(paisOptional.get());
+		Optional<Fase> entityOptional = repository.findById(id);
+		repository.delete(entityOptional.get());
 
 	}
 
@@ -67,16 +67,16 @@ public class FaseService {
 		
 		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 		
-		List<FaseModel> paisesModel = new ArrayList<>();
+		List<FaseModel> models = new ArrayList<>();
 		
 		Page<Fase> findAll = repository.findAll(pageable);
 		
 		findAll.stream().forEach(p -> {
 			FaseModel model = mapper.toModel(p);
-			paisesModel.add(model);
+			models.add(model);
 		});
 		
-		PageImpl<FaseModel> pageImpl = new PageImpl<>(paisesModel, pageable, findAll.getTotalElements());
+		PageImpl<FaseModel> pageImpl = new PageImpl<>(models, pageable, findAll.getTotalElements());
 		
 		return pageImpl;
 	}
@@ -89,19 +89,19 @@ public class FaseService {
 	}
 
 	public Optional<FaseModel> findById(Long key) {
-		Optional<Fase> paisOptional = repository.findById(key.longValue());
-		FaseModel model = mapper.toModel(paisOptional.get());
+		Optional<Fase> entityOptional = repository.findById(key.longValue());
+		FaseModel model = mapper.toModel(entityOptional.get());
 		return Optional.of(model);
 	}
 
-	public FaseModel update(long id, FaseModel paisModel) throws NotFoundException {
-		Optional<Fase> paisOptional = repository.findById(id);
+	public FaseModel update(long id, FaseModel entityModel) throws NotFoundException {
+		Optional<Fase> entityOptional = repository.findById(id);
 
-		if (paisOptional.isPresent()) {
-			Fase pais = paisOptional.get();
-//			pais.setNome(paisModel.getNome());
-			pais = repository.save(pais);
-			return mapper.toModel(pais);
+		if (entityOptional.isPresent()) {
+			Fase entity = entityOptional.get();
+//			entity.setNome(entityModel.getNome());
+			entity = repository.save(entity);
+			return mapper.toModel(entity);
 		} else {
 			throw new NotFoundException("Nao encontrado");
 		}
@@ -109,24 +109,24 @@ public class FaseService {
 	}
 
 	public void teste(final Pageable pageable) {
-		Page<Object> paises = repository.findAll(pageable).map(mapper::toModel);
+		Page<Object> entites = repository.findAll(pageable).map(mapper::toModel);
 
 	}
 
 	public List<FaseModel> findByNome(String nome) {
-		Fase pais = new Fase();
-		pais.setNome(nome);
+		Fase entity = new Fase();
+		entity.setNome(nome);
 		
-		Example<Fase> example = Example.of(pais);
+		Example<Fase> example = Example.of(entity);
 		
-		List<FaseModel> paisesModel = new ArrayList<>();
+		List<FaseModel> models = new ArrayList<>();
 		
 		repository.findAll(example).stream().forEach(p -> {
 			FaseModel model = mapper.toModel(p);
-			paisesModel.add(model);
+			models.add(model);
 		});
 		
-		return paisesModel;
+		return models;
 	}
 
 }

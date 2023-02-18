@@ -1,4 +1,4 @@
-package com.mhj.ranking.service;
+package com.mhj.ranking.crud.service;
 
 import java.util.ArrayList;
 import java.util.List;

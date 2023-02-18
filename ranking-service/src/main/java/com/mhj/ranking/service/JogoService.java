@@ -14,22 +14,22 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mhj.ranking.config.NotFoundException;
-import com.mhj.ranking.entity.Equipe;
-import com.mhj.ranking.mapper.EquipeMapper;
-import com.mhj.ranking.model.EquipeModel;
-import com.mhj.ranking.repository.EquipeRepository;
+import com.mhj.ranking.entity.Jogo;
+import com.mhj.ranking.mapper.JogoMapper;
+import com.mhj.ranking.model.JogoModel;
+import com.mhj.ranking.repository.JogoRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class EquipeService {
+public class JogoService {
 
 	@Autowired
-	private EquipeRepository repository;
+	private JogoRepository repository;
 
 	@Autowired
-	private EquipeMapper mapper;
+	private JogoMapper mapper;
 
 	public int count() {
 		Long count = repository.count();
@@ -37,68 +37,68 @@ public class EquipeService {
 		return count.intValue();
 	}
 
-	public List<Equipe> findRange(int pageNo, int pageSize) {
+	public List<Jogo> findRange(int pageNo, int pageSize) {
 		Pageable paging = PageRequest.of(pageNo, pageSize);
-		Page<Equipe> pagedResult = repository.findAll(paging);
+		Page<Jogo> pagedResult = repository.findAll(paging);
 		log.info("findRange: {}", pagedResult.getContent());
 //		return pagedResult.toList();
 		return repository.findAll();
 	}
 
-	public EquipeModel save(EquipeModel entityModel) {
-		Equipe entity = mapper.toEntity(entityModel);
+	public JogoModel save(JogoModel entityModel) {
+		Jogo entity = mapper.toEntity(entityModel);
 		entity = repository.saveAndFlush(entity);
 		return mapper.toModel(entity);
 	}
 
-	public void edit(Equipe current) {
+	public void edit(Jogo current) {
 		repository.saveAndFlush(current);
 	}
 
 	public void deleteById(Long id) {
-		Optional<Equipe> entityOptional = repository.findById(id);
+		Optional<Jogo> entityOptional = repository.findById(id);
 		repository.delete(entityOptional.get());
 
 	}
 
-	public Page<EquipeModel> findAll(int pageNo, int pageSize, String sortBy, String sortDir) {
+	public Page<JogoModel> findAll(int pageNo, int pageSize, String sortBy, String sortDir) {
 		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
 		
 		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 		
-		List<EquipeModel> models = new ArrayList<>();
+		List<JogoModel> models = new ArrayList<>();
 		
-		Page<Equipe> findAll = repository.findAll(pageable);
+		Page<Jogo> findAll = repository.findAll(pageable);
 		
 		findAll.stream().forEach(p -> {
-			EquipeModel model = mapper.toModel(p);
+			JogoModel model = mapper.toModel(p);
 			models.add(model);
 		});
 		
-		PageImpl<EquipeModel> pageImpl = new PageImpl<>(models, pageable, findAll.getTotalElements());
+		PageImpl<JogoModel> pageImpl = new PageImpl<>(models, pageable, findAll.getTotalElements());
 		
 		return pageImpl;
 	}
 
-	public List<EquipeModel> findLast(int pageNo, int pageSize, String sortBy, String sortDir) {
+	public List<JogoModel> findLast(int pageNo, int pageSize, String sortBy, String sortDir) {
 		
-		PageImpl<EquipeModel> pageImpl = (PageImpl<EquipeModel>) findAll(pageNo, pageSize, sortBy, sortDir);
+		PageImpl<JogoModel> pageImpl = (PageImpl<JogoModel>) findAll(pageNo, pageSize, sortBy, sortDir);
 		
 		return pageImpl.getContent();
 	}
 
-	public Optional<EquipeModel> findById(Long key) {
-		Optional<Equipe> entityOptional = repository.findById(key.longValue());
-		EquipeModel model = mapper.toModel(entityOptional.get());
+	public Optional<JogoModel> findById(Long key) {
+		Optional<Jogo> entityOptional = repository.findById(key.longValue());
+		JogoModel model = mapper.toModel(entityOptional.get());
 		return Optional.of(model);
 	}
 
-	public EquipeModel update(long id, EquipeModel entityModel) throws NotFoundException {
-		Optional<Equipe> entityOptional = repository.findById(id);
+	public JogoModel update(long id, JogoModel entityModel) throws NotFoundException {
+		Optional<Jogo> entityOptional = repository.findById(id);
 
 		if (entityOptional.isPresent()) {
-			Equipe entity = entityOptional.get();
+			Jogo entity = entityOptional.get();
 //			entity.setNome(entityModel.getNome());
 			entity = repository.save(entity);
 			return mapper.toModel(entity);
@@ -113,16 +113,16 @@ public class EquipeService {
 
 	}
 
-	public List<EquipeModel> findByNome(String nome) {
-		Equipe entity = new Equipe();
-		entity.setNome(nome);
+	public List<JogoModel> findByNome(String nome) {
+		Jogo entity = new Jogo();
+//		entity.setNome(nome);
 		
-		Example<Equipe> example = Example.of(entity);
+		Example<Jogo> example = Example.of(entity);
 		
-		List<EquipeModel> models = new ArrayList<>();
+		List<JogoModel> models = new ArrayList<>();
 		
 		repository.findAll(example).stream().forEach(p -> {
-			EquipeModel model = mapper.toModel(p);
+			JogoModel model = mapper.toModel(p);
 			models.add(model);
 		});
 		
