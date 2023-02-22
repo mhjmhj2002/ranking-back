@@ -6,8 +6,8 @@ package com.mhj.ranking.entity;
 
 import java.io.Serializable;
 import java.util.List;
+
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,7 +33,6 @@ public class Grupo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
@@ -42,8 +41,6 @@ public class Grupo implements Serializable {
     private String nome;
     @OneToMany(mappedBy = "idGrupo", fetch = FetchType.LAZY)
     private List<Jogo> jogoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idGrupo", fetch = FetchType.LAZY)
-    private List<Equipe> equipeList;
 
     public Grupo() {
     }
@@ -79,14 +76,6 @@ public class Grupo implements Serializable {
 
     public void setJogoList(List<Jogo> jogoList) {
         this.jogoList = jogoList;
-    }
-
-    public List<Equipe> getEquipeList() {
-        return equipeList;
-    }
-
-    public void setEquipeList(List<Equipe> equipeList) {
-        this.equipeList = equipeList;
     }
 
     @Override

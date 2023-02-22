@@ -36,12 +36,12 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Simple Spring Boot REST API")
-                .description("\"Um exemplo de aplicação Spring Boot REST API\"")
+                .title("Ranking Spring Boot REST API")
+                .description("\"Aplicação Spring Boot REST API\"")
                 .version("1.0.0")
                 .license("Apache License Version 2.0")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0\"")
-                .contact(new Contact("Wladimilson", "https://treinaweb.com.br", "contato@treinaweb.com.br"))
+                .contact(new Contact("Mhj", "https://xxx.com.br", "xxx@xxx.com.br"))
                 .build();
     }
 
@@ -56,5 +56,4 @@ public class SwaggerConfig {
     }
 
     //http://localhost:8080/swagger-ui.html 
-    //.apis(RequestHandlerSelectors.basePackage("br.com.ciceroednilson"))          
 }

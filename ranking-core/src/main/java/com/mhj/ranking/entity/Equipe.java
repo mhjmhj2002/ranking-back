@@ -35,7 +35,6 @@ public class Equipe implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
@@ -48,9 +47,6 @@ public class Equipe implements Serializable {
     private List<Jogo> jogoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEquipeDois", fetch = FetchType.LAZY)
     private List<Jogo> jogoList1;
-    @JoinColumn(name = "id_grupo", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Grupo idGrupo;
     @JoinColumn(name = "id_pais", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Pais idPais;
@@ -105,14 +101,6 @@ public class Equipe implements Serializable {
 
     public void setJogoList1(List<Jogo> jogoList1) {
         this.jogoList1 = jogoList1;
-    }
-
-    public Grupo getIdGrupo() {
-        return idGrupo;
-    }
-
-    public void setIdGrupo(Grupo idGrupo) {
-        this.idGrupo = idGrupo;
     }
 
     public Pais getIdPais() {
