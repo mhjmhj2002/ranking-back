@@ -51,7 +51,7 @@ public class Temporada implements Serializable {
     @Column(name = "ano_fim")
     private int anoFim;
     @JoinColumn(name = "id_torneio", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Torneio idTorneio;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTemporada", fetch = FetchType.LAZY)
     private List<Classificacao> classificacaoList;

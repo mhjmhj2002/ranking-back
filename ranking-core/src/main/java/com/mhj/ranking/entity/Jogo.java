@@ -44,19 +44,19 @@ public class Jogo implements Serializable {
     @Column(name = "placar_equipe_dois")
     private int placarEquipeDois;
     @JoinColumn(name = "id_equipe_um", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Equipe idEquipeUm;
     @JoinColumn(name = "id_equipe_dois", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Equipe idEquipeDois;
     @JoinColumn(name = "id_fase", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Fase idFase;
     @JoinColumn(name = "id_grupo", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Grupo idGrupo;
     @JoinColumn(name = "id_torneio", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Torneio idTorneio;
 
     public Jogo() {

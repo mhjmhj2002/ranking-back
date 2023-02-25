@@ -36,13 +36,13 @@ public class Classificacao implements Serializable {
     @Column(name = "id")
     private Long id;
     @JoinColumn(name = "id_equipe", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Equipe idEquipe;
     @JoinColumn(name = "id_temporada", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Temporada idTemporada;
     @JoinColumn(name = "id_torneio", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Torneio idTorneio;
 
     public Classificacao() {

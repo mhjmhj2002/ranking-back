@@ -48,7 +48,7 @@ public class Equipe implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEquipeDois", fetch = FetchType.LAZY)
     private List<Jogo> jogoList1;
     @JoinColumn(name = "id_pais", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Pais idPais;
 
     public Equipe() {

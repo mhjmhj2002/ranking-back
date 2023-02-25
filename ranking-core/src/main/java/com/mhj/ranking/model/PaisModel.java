@@ -1,5 +1,9 @@
 package com.mhj.ranking.model;
 
+import java.util.List;
+
+import com.mhj.ranking.entity.Equipe;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
