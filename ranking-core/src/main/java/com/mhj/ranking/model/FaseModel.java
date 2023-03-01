@@ -6,5 +6,7 @@ import lombok.ToString;
 @Data
 @ToString
 public class FaseModel {
+    private Integer id;
+    private String nome;
 
 }
