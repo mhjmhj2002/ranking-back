@@ -1,7 +1,5 @@
 package com.mhj.ranking.model;
 
-import com.mhj.ranking.entity.Torneio;
-
 import lombok.Data;
 import lombok.ToString;
 
@@ -12,5 +10,5 @@ public class TemporadaModel {
     private String nome;
     private int anoInicio;
     private int anoFim;
-    private Torneio idTorneio;
+    private TorneioModel idTorneio;
 }

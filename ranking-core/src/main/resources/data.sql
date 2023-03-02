@@ -288,6 +288,7 @@ MERGE INTO equipe (id, nome, id_pais) VALUES (2, 'Seleção Espanha', 73);
 
 INSERT INTO jogo (id_equipe_um, id_equipe_dois, placar_equipe_um, placar_equipe_dois, id_fase, id_grupo, id_torneio) VALUES(1,2,3,0,5,null,8);
 
+INSERT INTO temporada (ano_inicio, ano_fim, nome, id_torneio) VALUES (2016, 2016, 'Centenario', 4);
 
 
 
