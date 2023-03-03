@@ -63,28 +63,28 @@ public class TemporadaService {
 
 	public Page<TemporadaModel> findAll(int pageNo, int pageSize, String sortBy, String sortDir) {
 		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
-		
+				: Sort.by(sortBy).descending();
+
 		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-		
+
 		List<TemporadaModel> models = new ArrayList<>();
-		
+
 		Page<Temporada> findAll = repository.findAll(pageable);
-		
+
 		findAll.stream().forEach(p -> {
 			TemporadaModel model = mapper.toModel(p);
 			models.add(model);
 		});
-		
+
 		PageImpl<TemporadaModel> pageImpl = new PageImpl<>(models, pageable, findAll.getTotalElements());
-		
+
 		return pageImpl;
 	}
 
 	public List<TemporadaModel> findLast(int pageNo, int pageSize, String sortBy, String sortDir) {
-		
+
 		PageImpl<TemporadaModel> pageImpl = (PageImpl<TemporadaModel>) findAll(pageNo, pageSize, sortBy, sortDir);
-		
+
 		return pageImpl.getContent();
 	}
 
@@ -108,24 +108,19 @@ public class TemporadaService {
 
 	}
 
-	public void teste(final Pageable pageable) {
-		Page<Object> entites = repository.findAll(pageable).map(mapper::toModel);
-
-	}
-
 	public List<TemporadaModel> findByNome(String nome) {
 		Temporada entity = new Temporada();
 //		entity.setNome(nome);
-		
+
 		Example<Temporada> example = Example.of(entity);
-		
+
 		List<TemporadaModel> models = new ArrayList<>();
-		
+
 		repository.findAll(example).stream().forEach(p -> {
 			TemporadaModel model = mapper.toModel(p);
 			models.add(model);
 		});
-		
+
 		return models;
 	}
 

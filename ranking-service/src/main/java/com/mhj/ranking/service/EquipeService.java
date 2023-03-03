@@ -63,28 +63,28 @@ public class EquipeService {
 
 	public Page<EquipeModel> findAll(int pageNo, int pageSize, String sortBy, String sortDir) {
 		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
-		
+				: Sort.by(sortBy).descending();
+
 		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-		
+
 		List<EquipeModel> models = new ArrayList<>();
-		
+
 		Page<Equipe> findAll = repository.findAll(pageable);
-		
+
 		findAll.stream().forEach(p -> {
 			EquipeModel model = mapper.toModel(p);
 			models.add(model);
 		});
-		
+
 		PageImpl<EquipeModel> pageImpl = new PageImpl<>(models, pageable, findAll.getTotalElements());
-		
+
 		return pageImpl;
 	}
 
 	public List<EquipeModel> findLast(int pageNo, int pageSize, String sortBy, String sortDir) {
-		
+
 		PageImpl<EquipeModel> pageImpl = (PageImpl<EquipeModel>) findAll(pageNo, pageSize, sortBy, sortDir);
-		
+
 		return pageImpl.getContent();
 	}
 
@@ -108,24 +108,19 @@ public class EquipeService {
 
 	}
 
-	public void teste(final Pageable pageable) {
-		Page<Object> entites = repository.findAll(pageable).map(mapper::toModel);
-
-	}
-
 	public List<EquipeModel> findByNome(String nome) {
 		Equipe entity = new Equipe();
 		entity.setNome(nome);
-		
+
 		Example<Equipe> example = Example.of(entity);
-		
+
 		List<EquipeModel> models = new ArrayList<>();
-		
+
 		repository.findAll(example).stream().forEach(p -> {
 			EquipeModel model = mapper.toModel(p);
 			models.add(model);
 		});
-		
+
 		return models;
 	}
 

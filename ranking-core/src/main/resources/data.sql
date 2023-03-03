@@ -260,12 +260,13 @@ MERGE INTO pais (id, nome) VALUES (259, 'Zimbabué');
 
 MERGE INTO torneio (id, nome) VALUES (1, 'Mundial de seleções');
 MERGE INTO torneio (id, nome) VALUES (2, 'Mundial de clubes');
-MERGE INTO torneio (id, nome) VALUES (3, 'Champions Leaugue');
+MERGE INTO torneio (id, nome) VALUES (3, 'Champions League');
 MERGE INTO torneio (id, nome) VALUES (4, 'Copa América');
 MERGE INTO torneio (id, nome) VALUES (5, 'Eurocopa');
 MERGE INTO torneio (id, nome) VALUES (6, 'Libertadores');
 MERGE INTO torneio (id, nome) VALUES (7, 'Sulamericana');
 MERGE INTO torneio (id, nome) VALUES (8, 'Copa Confederações');
+MERGE INTO torneio (id, nome) VALUES (9, 'Europa League');
 
 MERGE INTO grupo (id, nome) VALUES (1, 'A');
 MERGE INTO grupo (id, nome) VALUES (2, 'B');
@@ -286,9 +287,14 @@ MERGE INTO fase (id, nome) VALUES (6, 'Terceiro Lugar');
 MERGE INTO equipe (id, nome, id_pais) VALUES (1, 'Seleção Brasil', 35);
 MERGE INTO equipe (id, nome, id_pais) VALUES (2, 'Seleção Espanha', 73);
 
+DELETE FROM jogo;
+
 INSERT INTO jogo (id_equipe_um, id_equipe_dois, placar_equipe_um, placar_equipe_dois, id_fase, id_grupo, id_torneio) VALUES(1,2,3,0,5,null,8);
 
+DELETE FROM temporada;
+
 INSERT INTO temporada (ano_inicio, ano_fim, nome, id_torneio) VALUES (2016, 2016, 'Centenario', 4);
+INSERT INTO temporada (ano_inicio, ano_fim, nome, id_torneio) VALUES (2013, 2013, '2013', 8);
 
 
 

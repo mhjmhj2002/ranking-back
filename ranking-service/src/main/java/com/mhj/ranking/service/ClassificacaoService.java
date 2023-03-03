@@ -63,28 +63,29 @@ public class ClassificacaoService {
 
 	public Page<ClassificacaoModel> findAll(int pageNo, int pageSize, String sortBy, String sortDir) {
 		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
-		
+				: Sort.by(sortBy).descending();
+
 		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-		
+
 		List<ClassificacaoModel> models = new ArrayList<>();
-		
+
 		Page<Classificacao> findAll = repository.findAll(pageable);
-		
+
 		findAll.stream().forEach(p -> {
 			ClassificacaoModel model = mapper.toModel(p);
 			models.add(model);
 		});
-		
+
 		PageImpl<ClassificacaoModel> pageImpl = new PageImpl<>(models, pageable, findAll.getTotalElements());
-		
+
 		return pageImpl;
 	}
 
 	public List<ClassificacaoModel> findLast(int pageNo, int pageSize, String sortBy, String sortDir) {
-		
-		PageImpl<ClassificacaoModel> pageImpl = (PageImpl<ClassificacaoModel>) findAll(pageNo, pageSize, sortBy, sortDir);
-		
+
+		PageImpl<ClassificacaoModel> pageImpl = (PageImpl<ClassificacaoModel>) findAll(pageNo, pageSize, sortBy,
+				sortDir);
+
 		return pageImpl.getContent();
 	}
 
@@ -108,24 +109,19 @@ public class ClassificacaoService {
 
 	}
 
-	public void teste(final Pageable pageable) {
-		Page<Object> entites = repository.findAll(pageable).map(mapper::toModel);
-
-	}
-
 	public List<ClassificacaoModel> findByNome(String nome) {
 		Classificacao entity = new Classificacao();
 //		entity.setNome(nome);
-		
+
 		Example<Classificacao> example = Example.of(entity);
-		
+
 		List<ClassificacaoModel> models = new ArrayList<>();
-		
+
 		repository.findAll(example).stream().forEach(p -> {
 			ClassificacaoModel model = mapper.toModel(p);
 			models.add(model);
 		});
-		
+
 		return models;
 	}
 

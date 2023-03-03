@@ -63,28 +63,28 @@ public class GrupoService {
 
 	public Page<GrupoModel> findAll(int pageNo, int pageSize, String sortBy, String sortDir) {
 		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
-		
+				: Sort.by(sortBy).descending();
+
 		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-		
+
 		List<GrupoModel> models = new ArrayList<>();
-		
+
 		Page<Grupo> findAll = repository.findAll(pageable);
-		
+
 		findAll.stream().forEach(p -> {
 			GrupoModel model = mapper.toModel(p);
 			models.add(model);
 		});
-		
+
 		PageImpl<GrupoModel> pageImpl = new PageImpl<>(models, pageable, findAll.getTotalElements());
-		
+
 		return pageImpl;
 	}
 
 	public List<GrupoModel> findLast(int pageNo, int pageSize, String sortBy, String sortDir) {
-		
+
 		PageImpl<GrupoModel> pageImpl = (PageImpl<GrupoModel>) findAll(pageNo, pageSize, sortBy, sortDir);
-		
+
 		return pageImpl.getContent();
 	}
 
@@ -108,24 +108,19 @@ public class GrupoService {
 
 	}
 
-	public void teste(final Pageable pageable) {
-		Page<Object> entites = repository.findAll(pageable).map(mapper::toModel);
-
-	}
-
 	public List<GrupoModel> findByNome(String nome) {
 		Grupo entity = new Grupo();
 		entity.setNome(nome);
-		
+
 		Example<Grupo> example = Example.of(entity);
-		
+
 		List<GrupoModel> models = new ArrayList<>();
-		
+
 		repository.findAll(example).stream().forEach(p -> {
 			GrupoModel model = mapper.toModel(p);
 			models.add(model);
 		});
-		
+
 		return models;
 	}
 

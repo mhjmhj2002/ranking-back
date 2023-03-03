@@ -108,11 +108,6 @@ public class PaisService {
 
 	}
 
-	public void teste(final Pageable pageable) {
-		Page<Object> paises = repository.findAll(pageable).map(mapper::toModel);
-
-	}
-
 	public List<PaisModel> findByNome(String nome) {
 		Pais pais = new Pais();
 		pais.setNome(nome);

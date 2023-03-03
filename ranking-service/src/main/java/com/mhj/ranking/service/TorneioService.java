@@ -63,28 +63,28 @@ public class TorneioService {
 
 	public Page<TorneioModel> findAll(int pageNo, int pageSize, String sortBy, String sortDir) {
 		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
-		
+				: Sort.by(sortBy).descending();
+
 		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-		
+
 		List<TorneioModel> models = new ArrayList<>();
-		
+
 		Page<Torneio> findAll = repository.findAll(pageable);
-		
+
 		findAll.stream().forEach(p -> {
 			TorneioModel model = mapper.toModel(p);
 			models.add(model);
 		});
-		
+
 		PageImpl<TorneioModel> pageImpl = new PageImpl<>(models, pageable, findAll.getTotalElements());
-		
+
 		return pageImpl;
 	}
 
 	public List<TorneioModel> findLast(int pageNo, int pageSize, String sortBy, String sortDir) {
-		
+
 		PageImpl<TorneioModel> pageImpl = (PageImpl<TorneioModel>) findAll(pageNo, pageSize, sortBy, sortDir);
-		
+
 		return pageImpl.getContent();
 	}
 
@@ -108,24 +108,19 @@ public class TorneioService {
 
 	}
 
-	public void teste(final Pageable pageable) {
-		Page<Object> entites = repository.findAll(pageable).map(mapper::toModel);
-
-	}
-
 	public List<TorneioModel> findByNome(String nome) {
 		Torneio entity = new Torneio();
 //		entity.setNome(nome);
-		
+
 		Example<Torneio> example = Example.of(entity);
-		
+
 		List<TorneioModel> models = new ArrayList<>();
-		
+
 		repository.findAll(example).stream().forEach(p -> {
 			TorneioModel model = mapper.toModel(p);
 			models.add(model);
 		});
-		
+
 		return models;
 	}
 

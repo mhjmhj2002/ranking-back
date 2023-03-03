@@ -63,28 +63,28 @@ public class FaseService {
 
 	public Page<FaseModel> findAll(int pageNo, int pageSize, String sortBy, String sortDir) {
 		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
-		
+				: Sort.by(sortBy).descending();
+
 		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-		
+
 		List<FaseModel> models = new ArrayList<>();
-		
+
 		Page<Fase> findAll = repository.findAll(pageable);
-		
+
 		findAll.stream().forEach(p -> {
 			FaseModel model = mapper.toModel(p);
 			models.add(model);
 		});
-		
+
 		PageImpl<FaseModel> pageImpl = new PageImpl<>(models, pageable, findAll.getTotalElements());
-		
+
 		return pageImpl;
 	}
 
 	public List<FaseModel> findLast(int pageNo, int pageSize, String sortBy, String sortDir) {
-		
+
 		PageImpl<FaseModel> pageImpl = (PageImpl<FaseModel>) findAll(pageNo, pageSize, sortBy, sortDir);
-		
+
 		return pageImpl.getContent();
 	}
 
@@ -108,24 +108,19 @@ public class FaseService {
 
 	}
 
-	public void teste(final Pageable pageable) {
-		Page<Object> entites = repository.findAll(pageable).map(mapper::toModel);
-
-	}
-
 	public List<FaseModel> findByNome(String nome) {
 		Fase entity = new Fase();
 		entity.setNome(nome);
-		
+
 		Example<Fase> example = Example.of(entity);
-		
+
 		List<FaseModel> models = new ArrayList<>();
-		
+
 		repository.findAll(example).stream().forEach(p -> {
 			FaseModel model = mapper.toModel(p);
 			models.add(model);
 		});
-		
+
 		return models;
 	}
 

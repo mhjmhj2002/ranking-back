@@ -63,28 +63,28 @@ public class JogoService {
 
 	public Page<JogoModel> findAll(int pageNo, int pageSize, String sortBy, String sortDir) {
 		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
-		
+				: Sort.by(sortBy).descending();
+
 		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-		
+
 		List<JogoModel> models = new ArrayList<>();
-		
+
 		Page<Jogo> findAll = repository.findAll(pageable);
-		
+
 		findAll.stream().forEach(p -> {
 			JogoModel model = mapper.toModel(p);
 			models.add(model);
 		});
-		
+
 		PageImpl<JogoModel> pageImpl = new PageImpl<>(models, pageable, findAll.getTotalElements());
-		
+
 		return pageImpl;
 	}
 
 	public List<JogoModel> findLast(int pageNo, int pageSize, String sortBy, String sortDir) {
-		
+
 		PageImpl<JogoModel> pageImpl = (PageImpl<JogoModel>) findAll(pageNo, pageSize, sortBy, sortDir);
-		
+
 		return pageImpl.getContent();
 	}
 
@@ -108,24 +108,19 @@ public class JogoService {
 
 	}
 
-	public void teste(final Pageable pageable) {
-		Page<Object> entites = repository.findAll(pageable).map(mapper::toModel);
-
-	}
-
 	public List<JogoModel> findByNome(String nome) {
 		Jogo entity = new Jogo();
 //		entity.setNome(nome);
-		
+
 		Example<Jogo> example = Example.of(entity);
-		
+
 		List<JogoModel> models = new ArrayList<>();
-		
+
 		repository.findAll(example).stream().forEach(p -> {
 			JogoModel model = mapper.toModel(p);
 			models.add(model);
 		});
-		
+
 		return models;
 	}
 

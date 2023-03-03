@@ -1,0 +1,14 @@
+SELECT 
+t.nome "Torneio",
+te.nome "Temporada",
+f.nome "Fase",
+e1.nome "Equipe 1",
+j.placar_equipe_um "Placar",
+e2.nome "Equipe 2",
+j.placar_equipe_dois "Placar"
+FROM JOGO j
+inner join torneio t on t.ID = j.ID_TORNEIO 
+inner join equipe e1 on e1.id = j.id_equipe_um
+inner join equipe e2 on e2.id = j.id_equipe_dois
+inner join fase f on f.id = j.id_fase
+inner join temporada te on te.id_torneio = t.id
