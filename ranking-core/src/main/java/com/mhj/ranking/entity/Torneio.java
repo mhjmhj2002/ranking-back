@@ -30,7 +30,7 @@ public class Torneio implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @Column(name = "nome")
     private String nome;
@@ -38,20 +38,20 @@ public class Torneio implements Serializable {
     public Torneio() {
     }
 
-    public Torneio(Integer id) {
+    public Torneio(Long id) {
         this.id = id;
     }
 
-    public Torneio(Integer id, String nome) {
+    public Torneio(Long id, String nome) {
         this.id = id;
         this.nome = nome;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -41,7 +41,7 @@ public class Penalti implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
 	@Column(name = "id")
-	private Integer id;
+	private Long id;
 
 	@JoinColumn(name = "id_jogo", referencedColumnName = "id")
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)

@@ -36,7 +36,7 @@ public class Equipe implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @Column(name = "nome")
     private String nome;
@@ -53,20 +53,20 @@ public class Equipe implements Serializable {
     public Equipe() {
     }
 
-    public Equipe(Integer id) {
+    public Equipe(Long id) {
         this.id = id;
     }
 
-    public Equipe(Integer id, String nome) {
+    public Equipe(Long id, String nome) {
         this.id = id;
         this.nome = nome;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

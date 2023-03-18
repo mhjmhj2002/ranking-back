@@ -34,7 +34,7 @@ public class Jogo implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @JoinColumn(name = "id_equipe_um", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Equipe idEquipeUm;
@@ -63,15 +63,15 @@ public class Jogo implements Serializable {
     public Jogo() {
     }
 
-    public Jogo(Integer id) {
+    public Jogo(Long id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

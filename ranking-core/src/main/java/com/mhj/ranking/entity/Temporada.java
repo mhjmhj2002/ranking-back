@@ -32,7 +32,7 @@ public class Temporada implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @Column(name = "nome")
     private String nome;
@@ -46,22 +46,22 @@ public class Temporada implements Serializable {
     public Temporada() {
     }
 
-    public Temporada(Integer id) {
+    public Temporada(Long id) {
         this.id = id;
     }
 
-    public Temporada(Integer id, String nome, int anoInicio, int anoFim) {
+    public Temporada(Long id, String nome, int anoInicio, int anoFim) {
         this.id = id;
         this.nome = nome;
         this.anoInicio = anoInicio;
         this.anoFim = anoFim;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

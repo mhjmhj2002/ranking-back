@@ -33,7 +33,7 @@ public class Grupo implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @Column(name = "nome")
     private String nome;
@@ -43,20 +43,20 @@ public class Grupo implements Serializable {
     public Grupo() {
     }
 
-    public Grupo(Integer id) {
+    public Grupo(Long id) {
         this.id = id;
     }
 
-    public Grupo(Integer id, String nome) {
+    public Grupo(Long id, String nome) {
         this.id = id;
         this.nome = nome;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

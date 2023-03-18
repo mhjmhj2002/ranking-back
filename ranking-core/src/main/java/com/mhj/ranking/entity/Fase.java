@@ -34,7 +34,7 @@ public class Fase implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @Column(name = "nome")
     private String nome;
@@ -44,20 +44,20 @@ public class Fase implements Serializable {
     public Fase() {
     }
 
-    public Fase(Integer id) {
+    public Fase(Long id) {
         this.id = id;
     }
 
-    public Fase(Integer id, String nome) {
+    public Fase(Long id, String nome) {
         this.id = id;
         this.nome = nome;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
