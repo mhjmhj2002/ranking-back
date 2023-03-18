@@ -5,17 +5,13 @@
 package com.mhj.ranking.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -38,12 +34,6 @@ public class Torneio implements Serializable {
     @Basic(optional = false)
     @Column(name = "nome")
     private String nome;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTorneio", fetch = FetchType.LAZY)
-    private List<Temporada> temporadaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTorneio", fetch = FetchType.LAZY)
-    private List<Classificacao> classificacaoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTorneio", fetch = FetchType.LAZY)
-    private List<Jogo> jogoList;
 
     public Torneio() {
     }
@@ -71,30 +61,6 @@ public class Torneio implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public List<Temporada> getTemporadaList() {
-        return temporadaList;
-    }
-
-    public void setTemporadaList(List<Temporada> temporadaList) {
-        this.temporadaList = temporadaList;
-    }
-
-    public List<Classificacao> getClassificacaoList() {
-        return classificacaoList;
-    }
-
-    public void setClassificacaoList(List<Classificacao> classificacaoList) {
-        this.classificacaoList = classificacaoList;
-    }
-
-    public List<Jogo> getJogoList() {
-        return jogoList;
-    }
-
-    public void setJogoList(List<Jogo> jogoList) {
-        this.jogoList = jogoList;
     }
 
     @Override

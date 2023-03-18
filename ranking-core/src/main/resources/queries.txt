@@ -1,14 +1,26 @@
 SELECT 
-t.nome "Torneio",
-te.nome "Temporada",
+to.nome "Torneio",
+t.nome "Temporada",
 f.nome "Fase",
 e1.nome "Equipe 1",
-j.placar_equipe_um "Placar",
+p1.nome "Placar",
 e2.nome "Equipe 2",
-j.placar_equipe_dois "Placar"
+p2.nome "Placar"
 FROM JOGO j
-inner join torneio t on t.ID = j.ID_TORNEIO 
+inner join temporada t on t.ID = j.ID_Temporada
 inner join equipe e1 on e1.id = j.id_equipe_um
 inner join equipe e2 on e2.id = j.id_equipe_dois
 inner join fase f on f.id = j.id_fase
-inner join temporada te on te.id_torneio = t.id
+inner join torneio to on t.id_torneio = to.id
+inner join placar p1 on p1.id = j.id_placar_um 
+inner join placar p2 on p2.id = j.id_placar_dois 
+
+SELECT *
+FROM JOGO j
+inner join temporada t on j.ID_TEMPORADA  = t.id
+inner join equipe e1 on e1.id = j.id_equipe_um
+inner join equipe e2 on e2.id = j.id_equipe_dois
+inner join fase f on f.id = j.id_fase
+inner join TORNEIO to on to.id = t.ID_TORNEIO  
+inner join placar p1 on p1.id = j.id_placar_um 
+inner join placar p2 on p2.id = j.id_placar_dois 

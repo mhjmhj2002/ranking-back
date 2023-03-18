@@ -5,20 +5,13 @@
 package com.mhj.ranking.entity;
 
 import java.io.Serializable;
-import java.util.List;
+
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -37,7 +30,6 @@ public class Temporada implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
@@ -50,11 +42,6 @@ public class Temporada implements Serializable {
     @Basic(optional = false)
     @Column(name = "ano_fim")
     private int anoFim;
-    @JoinColumn(name = "id_torneio", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Torneio idTorneio;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTemporada", fetch = FetchType.LAZY)
-    private List<Classificacao> classificacaoList;
 
     public Temporada() {
     }
@@ -100,22 +87,6 @@ public class Temporada implements Serializable {
 
     public void setAnoFim(int anoFim) {
         this.anoFim = anoFim;
-    }
-
-    public Torneio getIdTorneio() {
-        return idTorneio;
-    }
-
-    public void setIdTorneio(Torneio idTorneio) {
-        this.idTorneio = idTorneio;
-    }
-
-    public List<Classificacao> getClassificacaoList() {
-        return classificacaoList;
-    }
-
-    public void setClassificacaoList(List<Classificacao> classificacaoList) {
-        this.classificacaoList = classificacaoList;
     }
 
     @Override

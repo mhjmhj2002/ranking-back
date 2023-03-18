@@ -284,17 +284,35 @@ MERGE INTO fase (id, nome) VALUES (4, 'Semifinal');
 MERGE INTO fase (id, nome) VALUES (5, 'Final');
 MERGE INTO fase (id, nome) VALUES (6, 'Terceiro Lugar');
 
+MERGE INTO placar (id, nome) VALUES (0, 0);
+MERGE INTO placar (id, nome) VALUES (1, 1);
+MERGE INTO placar (id, nome) VALUES (2, 2);
+MERGE INTO placar (id, nome) VALUES (3, 3);
+MERGE INTO placar (id, nome) VALUES (4, 4);
+MERGE INTO placar (id, nome) VALUES (5, 5);
+MERGE INTO placar (id, nome) VALUES (6, 6);
+MERGE INTO placar (id, nome) VALUES (7, 7);
+MERGE INTO placar (id, nome) VALUES (8, 8);
+MERGE INTO placar (id, nome) VALUES (9, 9);
+MERGE INTO placar (id, nome) VALUES (10, 10);
+
 MERGE INTO equipe (id, nome, id_pais) VALUES (1, 'Seleção Brasil', 35);
 MERGE INTO equipe (id, nome, id_pais) VALUES (2, 'Seleção Espanha', 73);
-
-DELETE FROM jogo;
-
-INSERT INTO jogo (id_equipe_um, id_equipe_dois, placar_equipe_um, placar_equipe_dois, id_fase, id_grupo, id_torneio) VALUES(1,2,3,0,5,null,8);
+MERGE INTO equipe (id, nome, id_pais) VALUES (3, 'Seleção Argentina', 14);
+MERGE INTO equipe (id, nome, id_pais) VALUES (4, 'Seleção Chile', 48);
 
 DELETE FROM temporada;
 
-INSERT INTO temporada (ano_inicio, ano_fim, nome, id_torneio) VALUES (2016, 2016, 'Centenario', 4);
-INSERT INTO temporada (ano_inicio, ano_fim, nome, id_torneio) VALUES (2013, 2013, '2013', 8);
+INSERT INTO temporada (id, ano_inicio, ano_fim, nome) VALUES (1, 2016, 2016, 'Centenario');
+INSERT INTO temporada (id, ano_inicio, ano_fim, nome) VALUES (2, 2013, 2013, '2013');
+INSERT INTO temporada (id, ano_inicio, ano_fim, nome) VALUES (3, 2015, 2015, '2015');
+
+--so pra teste
+
+INSERT INTO jogo (id_equipe_um, id_equipe_dois, id_placar_um, id_placar_dois, id_fase, id_grupo, id_torneio, id_temporada) VALUES(1,2,3,0,5,null,8,2);
+INSERT INTO jogo (id_equipe_um, id_equipe_dois, id_placar_um, id_placar_dois, id_fase, id_grupo, id_torneio, id_temporada) VALUES(4,3,0,0,5,null,4,3);
+
+--INSERT INTO prorrogacao (id_equipe_um, id_equipe_dois, id_placar_um, id_placar_dois, id_fase, id_grupo, id_temporada) VALUES(4,3,0,0,5,null,3);
 
 
 
