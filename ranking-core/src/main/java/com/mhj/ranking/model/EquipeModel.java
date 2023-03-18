@@ -6,7 +6,7 @@ import lombok.ToString;
 @Data
 @ToString
 public class EquipeModel {
-    private Integer id;
+    private Long id;
     private String nome;
 //    private List<Classificacao> classificacaoList;
 //    private List<Jogo> jogoList;

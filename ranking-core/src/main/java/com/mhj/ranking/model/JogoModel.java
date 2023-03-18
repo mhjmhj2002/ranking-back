@@ -6,7 +6,7 @@ import lombok.ToString;
 @Data
 @ToString
 public class JogoModel {
-    private Integer id;
+    private Long id;
     private int placarEquipeUm;
     private int placarEquipeDois;
     private EquipeModel idEquipeUm;

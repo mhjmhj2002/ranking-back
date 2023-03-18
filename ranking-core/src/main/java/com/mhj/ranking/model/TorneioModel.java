@@ -6,6 +6,6 @@ import lombok.ToString;
 @Data
 @ToString
 public class TorneioModel {
-    private Integer id;
+    private Long id;
     private String nome;
 }

@@ -6,7 +6,7 @@ import lombok.ToString;
 @Data
 @ToString
 public class GrupoModel {
-    private Integer id;
+    private Long id;
     private String nome;
 
 

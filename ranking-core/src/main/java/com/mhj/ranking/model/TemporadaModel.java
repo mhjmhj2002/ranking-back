@@ -6,7 +6,7 @@ import lombok.ToString;
 @Data
 @ToString
 public class TemporadaModel {
-    private Integer id;
+    private Long id;
     private String nome;
     private int anoInicio;
     private int anoFim;
