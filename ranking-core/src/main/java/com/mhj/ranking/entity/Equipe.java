@@ -6,13 +6,12 @@ package com.mhj.ranking.entity;
 
 import java.io.Serializable;
 import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -35,10 +34,9 @@ public class Equipe implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @Column(name = "nome")
     private String nome;
@@ -48,30 +46,27 @@ public class Equipe implements Serializable {
     private List<Jogo> jogoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEquipeDois", fetch = FetchType.LAZY)
     private List<Jogo> jogoList1;
-    @JoinColumn(name = "id_grupo", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Grupo idGrupo;
     @JoinColumn(name = "id_pais", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Pais idPais;
 
     public Equipe() {
     }
 
-    public Equipe(Integer id) {
+    public Equipe(Long id) {
         this.id = id;
     }
 
-    public Equipe(Integer id, String nome) {
+    public Equipe(Long id, String nome) {
         this.id = id;
         this.nome = nome;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -105,14 +100,6 @@ public class Equipe implements Serializable {
 
     public void setJogoList1(List<Jogo> jogoList1) {
         this.jogoList1 = jogoList1;
-    }
-
-    public Grupo getIdGrupo() {
-        return idGrupo;
-    }
-
-    public void setIdGrupo(Grupo idGrupo) {
-        this.idGrupo = idGrupo;
     }
 
     public Pais getIdPais() {

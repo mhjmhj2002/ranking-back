@@ -9,6 +9,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,73 +26,53 @@ import javax.persistence.Table;
 @Table(name = "jogo")
 @NamedQueries({
     @NamedQuery(name = "Jogo.findAll", query = "SELECT j FROM Jogo j"),
-    @NamedQuery(name = "Jogo.findById", query = "SELECT j FROM Jogo j WHERE j.id = :id"),
-    @NamedQuery(name = "Jogo.findByPlacarEquipeUm", query = "SELECT j FROM Jogo j WHERE j.placarEquipeUm = :placarEquipeUm"),
-    @NamedQuery(name = "Jogo.findByPlacarEquipeDois", query = "SELECT j FROM Jogo j WHERE j.placarEquipeDois = :placarEquipeDois")})
+    @NamedQuery(name = "Jogo.findById", query = "SELECT j FROM Jogo j WHERE j.id = :id")})
 public class Jogo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
-    @Basic(optional = false)
-    @Column(name = "placar_equipe_um")
-    private int placarEquipeUm;
-    @Basic(optional = false)
-    @Column(name = "placar_equipe_dois")
-    private int placarEquipeDois;
+    private Long id;
     @JoinColumn(name = "id_equipe_um", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Equipe idEquipeUm;
     @JoinColumn(name = "id_equipe_dois", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Equipe idEquipeDois;
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Equipe idEquipeDois;   
+    @JoinColumn(name = "id_placar_um", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Placar idPlacarUm;
+    @JoinColumn(name = "id_placar_dois", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Placar idPlacarDois;
     @JoinColumn(name = "id_fase", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Fase idFase;
     @JoinColumn(name = "id_grupo", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Grupo idGrupo;
     @JoinColumn(name = "id_torneio", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Torneio idTorneio;
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Torneio idTorneio; 
+    @JoinColumn(name = "id_temporada", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Temporada idTemporada; 
 
     public Jogo() {
     }
 
-    public Jogo(Integer id) {
+    public Jogo(Long id) {
         this.id = id;
     }
 
-    public Jogo(Integer id, int placarEquipeUm, int placarEquipeDois) {
-        this.id = id;
-        this.placarEquipeUm = placarEquipeUm;
-        this.placarEquipeDois = placarEquipeDois;
-    }
-
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    public int getPlacarEquipeUm() {
-        return placarEquipeUm;
-    }
-
-    public void setPlacarEquipeUm(int placarEquipeUm) {
-        this.placarEquipeUm = placarEquipeUm;
-    }
-
-    public int getPlacarEquipeDois() {
-        return placarEquipeDois;
-    }
-
-    public void setPlacarEquipeDois(int placarEquipeDois) {
-        this.placarEquipeDois = placarEquipeDois;
     }
 
     public Equipe getIdEquipeUm() {
@@ -125,15 +107,31 @@ public class Jogo implements Serializable {
         this.idGrupo = idGrupo;
     }
 
-    public Torneio getIdTorneio() {
-        return idTorneio;
-    }
+    public Temporada getIdTemporada() {
+		return idTemporada;
+	}
 
-    public void setIdTorneio(Torneio idTorneio) {
-        this.idTorneio = idTorneio;
-    }
+	public void setIdTemporada(Temporada idTemporada) {
+		this.idTemporada = idTemporada;
+	}
 
-    @Override
+	public Placar getIdPlacarUm() {
+		return idPlacarUm;
+	}
+
+	public void setIdPlacarUm(Placar idPlacarUm) {
+		this.idPlacarUm = idPlacarUm;
+	}
+
+	public Placar getIdPlacarDois() {
+		return idPlacarDois;
+	}
+
+	public void setIdPlacarDois(Placar idPlacarDois) {
+		this.idPlacarDois = idPlacarDois;
+	}
+
+	@Override
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);

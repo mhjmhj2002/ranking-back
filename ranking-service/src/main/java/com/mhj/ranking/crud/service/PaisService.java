@@ -1,4 +1,4 @@
-package com.mhj.ranking.service;
+package com.mhj.ranking.crud.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +81,13 @@ public class PaisService {
 		return pageImpl;
 	}
 
+	public List<PaisModel> findLast(int pageNo, int pageSize, String sortBy, String sortDir) {
+		
+		PageImpl<PaisModel> pageImpl = (PageImpl<PaisModel>) findAll(pageNo, pageSize, sortBy, sortDir);
+		
+		return pageImpl.getContent();
+	}
+
 	public Optional<PaisModel> findById(Long key) {
 		Optional<Pais> paisOptional = repository.findById(key.longValue());
 		PaisModel model = mapper.toModel(paisOptional.get());
@@ -98,11 +105,6 @@ public class PaisService {
 		} else {
 			throw new NotFoundException("Nao encontrado");
 		}
-
-	}
-
-	public void teste(final Pageable pageable) {
-		Page<Object> paises = repository.findAll(pageable).map(mapper::toModel);
 
 	}
 

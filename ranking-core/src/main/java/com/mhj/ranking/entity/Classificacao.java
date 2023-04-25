@@ -34,29 +34,29 @@ public class Classificacao implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @JoinColumn(name = "id_equipe", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Equipe idEquipe;
     @JoinColumn(name = "id_temporada", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Temporada idTemporada;
     @JoinColumn(name = "id_torneio", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Torneio idTorneio;
 
     public Classificacao() {
     }
 
-    public Classificacao(Integer id) {
+    public Classificacao(Long id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

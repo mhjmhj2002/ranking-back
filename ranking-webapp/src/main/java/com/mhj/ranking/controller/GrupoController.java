@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mhj.ranking.config.NotFoundException;
-import com.mhj.ranking.crud.service.PaisService;
-import com.mhj.ranking.model.PaisModel;
+import com.mhj.ranking.model.GrupoModel;
+import com.mhj.ranking.service.GrupoService;
 import com.mhj.ranking.util.AppConstants;
 
 import io.swagger.annotations.ApiOperation;
@@ -30,22 +30,22 @@ import io.swagger.annotations.ApiResponses;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/pais")
+@RequestMapping("/grupo")
 //@Slf4j
-public class PaisController {
+public class GrupoController {
 
 	@Autowired
-	private PaisService service;
+	private GrupoService service;
 
-	@ApiOperation(value = "Retorna uma lista de paises")
+	@ApiOperation(value = "Retorna uma lista de grupos")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Retorna a lista de paises"),
+			@ApiResponse(code = 200, message = "Retorna a lista de grupos"),
 			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 			@ApiResponse(code = 500, message = "Foi gerada uma exceção"),
 	})
-	@GetMapping("/paises")
+	@GetMapping("/grupos")
 	@ResponseBody
-	public ResponseEntity<Page<PaisModel>> getAll(
+	public ResponseEntity<Page<GrupoModel>> getAll(
             @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
@@ -53,27 +53,27 @@ public class PaisController {
 			) {
 		try {
 
-			Page<PaisModel> paises = service.findAll(pageNo, pageSize, sortBy, sortDir);
+			Page<GrupoModel> grupos = service.findAll(pageNo, pageSize, sortBy, sortDir);
 
-			if (paises.isEmpty()) {
+			if (grupos.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 
-			return new ResponseEntity<>(paises, HttpStatus.OK);
+			return new ResponseEntity<>(grupos, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	@ApiOperation(value = "Retorna uma lista de paises")
+	@ApiOperation(value = "Retorna uma lista de grupos")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Retorna a lista de paises"),
+			@ApiResponse(code = 200, message = "Retorna a lista de grupos"),
 			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 			@ApiResponse(code = 500, message = "Foi gerada uma exceção"),
 	})
-	@GetMapping("/paises/last")
+	@GetMapping("/grupos/last")
 	@ResponseBody
-	public ResponseEntity<List<PaisModel>> getLast(
+	public ResponseEntity<List<GrupoModel>> getLast(
             @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
@@ -81,52 +81,52 @@ public class PaisController {
 			) {
 		try {
 
-			List<PaisModel> paises = service.findLast(pageNo, pageSize, sortBy, sortDir);
+			List<GrupoModel> grupos = service.findLast(pageNo, pageSize, sortBy, sortDir);
 
-			if (paises.isEmpty()) {
+			if (grupos.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 
-			return new ResponseEntity<>(paises, HttpStatus.OK);
+			return new ResponseEntity<>(grupos, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	@GetMapping("/paises/{id}")
-	public ResponseEntity<PaisModel> getPaisById(@PathVariable("id") Long id) {
-		Optional<PaisModel> paisData = service.findById(id);
+	@GetMapping("/grupos/{id}")
+	public ResponseEntity<GrupoModel> getGrupoById(@PathVariable("id") Long id) {
+		Optional<GrupoModel> grupoData = service.findById(id);
 
-		if (paisData.isPresent()) {
-			return new ResponseEntity<>(paisData.get(), HttpStatus.OK);
+		if (grupoData.isPresent()) {
+			return new ResponseEntity<>(grupoData.get(), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
-	@PostMapping("/paises")
-	public ResponseEntity<PaisModel> save(@RequestBody PaisModel pais) {
+	@PostMapping("/grupos")
+	public ResponseEntity<GrupoModel> save(@RequestBody GrupoModel grupo) {
 		try {
-			PaisModel paisModel = service.save(pais);
-			return new ResponseEntity<>(paisModel, HttpStatus.CREATED);
+			GrupoModel grupoModel = service.save(grupo);
+			return new ResponseEntity<>(grupoModel, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	@PutMapping("/paises/{id}")
-	public ResponseEntity<PaisModel> updatePais(@PathVariable("id") long id, @RequestBody PaisModel paisModel) {
-		PaisModel response;
+	@PutMapping("/grupos/{id}")
+	public ResponseEntity<GrupoModel> updateGrupo(@PathVariable("id") long id, @RequestBody GrupoModel grupoModel) {
+		GrupoModel response;
 		try {
-			response = service.update(id, paisModel);
+			response = service.update(id, grupoModel);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (NotFoundException e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
-	@DeleteMapping("/paises/{id}")
-	public ResponseEntity<HttpStatus> deletePais(@PathVariable("id") long id) {
+	@DeleteMapping("/grupos/{id}")
+	public ResponseEntity<HttpStatus> deleteGrupo(@PathVariable("id") long id) {
 		try {
 			service.deleteById(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -135,37 +135,37 @@ public class PaisController {
 		}
 	}
 	
-	/*@GetMapping("/paises")
+	/*@GetMapping("/grupos")
 	@ResponseBody
-	public ResponseEntity<List<PaisModel>> findByNome(@RequestParam("nome") String nome) {
+	public ResponseEntity<List<GrupoModel>> findByNome(@RequestParam("nome") String nome) {
 		try {
 
-			List<PaisModel> paises = service.findByNome(nome);
+			List<GrupoModel> grupos = service.findByNome(nome);
 
-			if (paises.isEmpty()) {
+			if (grupos.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 
-			return new ResponseEntity<>(paises, HttpStatus.OK);
+			return new ResponseEntity<>(grupos, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}*/
 
 	/*
-	 * @DeleteMapping("/paises") public ResponseEntity<HttpStatus> deleteAllPaises()
+	 * @DeleteMapping("/grupos") public ResponseEntity<HttpStatus> deleteAllGrupos()
 	 * { try { service.deleteAll(); return new
 	 * ResponseEntity<>(HttpStatus.NO_CONTENT); } catch (Exception e) { return new
 	 * ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); }
 	 * 
 	 * }
 	 * 
-	 * @GetMapping("/paises/published") public ResponseEntity<List<PaisModel>>
-	 * findByPublished() { try { List<PaisModel> paises =
+	 * @GetMapping("/grupos/published") public ResponseEntity<List<GrupoModel>>
+	 * findByPublished() { try { List<GrupoModel> grupos =
 	 * service.findByPublished(true);
 	 * 
-	 * if (paises.isEmpty()) { return new ResponseEntity<>(HttpStatus.NO_CONTENT); }
-	 * return new ResponseEntity<>(paises, HttpStatus.OK); } catch (Exception e) {
+	 * if (grupos.isEmpty()) { return new ResponseEntity<>(HttpStatus.NO_CONTENT); }
+	 * return new ResponseEntity<>(grupos, HttpStatus.OK); } catch (Exception e) {
 	 * return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); } }
 	 */
 

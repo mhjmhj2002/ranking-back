@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mhj.ranking.config.NotFoundException;
-import com.mhj.ranking.crud.service.PaisService;
-import com.mhj.ranking.model.PaisModel;
+import com.mhj.ranking.model.TemporadaModel;
+import com.mhj.ranking.service.TemporadaService;
 import com.mhj.ranking.util.AppConstants;
 
 import io.swagger.annotations.ApiOperation;
@@ -30,22 +30,22 @@ import io.swagger.annotations.ApiResponses;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/pais")
+@RequestMapping("/temporada")
 //@Slf4j
-public class PaisController {
+public class TemporadaController {
 
 	@Autowired
-	private PaisService service;
+	private TemporadaService service;
 
-	@ApiOperation(value = "Retorna uma lista de paises")
+	@ApiOperation(value = "Retorna uma lista de temporadas")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Retorna a lista de paises"),
+			@ApiResponse(code = 200, message = "Retorna a lista de temporadas"),
 			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 			@ApiResponse(code = 500, message = "Foi gerada uma exceção"),
 	})
-	@GetMapping("/paises")
+	@GetMapping("/temporadas")
 	@ResponseBody
-	public ResponseEntity<Page<PaisModel>> getAll(
+	public ResponseEntity<Page<TemporadaModel>> getAll(
             @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
@@ -53,27 +53,27 @@ public class PaisController {
 			) {
 		try {
 
-			Page<PaisModel> paises = service.findAll(pageNo, pageSize, sortBy, sortDir);
+			Page<TemporadaModel> temporadas = service.findAll(pageNo, pageSize, sortBy, sortDir);
 
-			if (paises.isEmpty()) {
+			if (temporadas.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 
-			return new ResponseEntity<>(paises, HttpStatus.OK);
+			return new ResponseEntity<>(temporadas, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	@ApiOperation(value = "Retorna uma lista de paises")
+	@ApiOperation(value = "Retorna uma lista de temporadas")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Retorna a lista de paises"),
+			@ApiResponse(code = 200, message = "Retorna a lista de temporadas"),
 			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 			@ApiResponse(code = 500, message = "Foi gerada uma exceção"),
 	})
-	@GetMapping("/paises/last")
+	@GetMapping("/temporadas/last")
 	@ResponseBody
-	public ResponseEntity<List<PaisModel>> getLast(
+	public ResponseEntity<List<TemporadaModel>> getLast(
             @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
@@ -81,52 +81,52 @@ public class PaisController {
 			) {
 		try {
 
-			List<PaisModel> paises = service.findLast(pageNo, pageSize, sortBy, sortDir);
+			List<TemporadaModel> temporadas = service.findLast(pageNo, pageSize, sortBy, sortDir);
 
-			if (paises.isEmpty()) {
+			if (temporadas.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 
-			return new ResponseEntity<>(paises, HttpStatus.OK);
+			return new ResponseEntity<>(temporadas, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	@GetMapping("/paises/{id}")
-	public ResponseEntity<PaisModel> getPaisById(@PathVariable("id") Long id) {
-		Optional<PaisModel> paisData = service.findById(id);
+	@GetMapping("/temporadas/{id}")
+	public ResponseEntity<TemporadaModel> getTemporadaById(@PathVariable("id") Long id) {
+		Optional<TemporadaModel> temporadaData = service.findById(id);
 
-		if (paisData.isPresent()) {
-			return new ResponseEntity<>(paisData.get(), HttpStatus.OK);
+		if (temporadaData.isPresent()) {
+			return new ResponseEntity<>(temporadaData.get(), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
-	@PostMapping("/paises")
-	public ResponseEntity<PaisModel> save(@RequestBody PaisModel pais) {
+	@PostMapping("/temporadas")
+	public ResponseEntity<TemporadaModel> save(@RequestBody TemporadaModel temporada) {
 		try {
-			PaisModel paisModel = service.save(pais);
-			return new ResponseEntity<>(paisModel, HttpStatus.CREATED);
+			TemporadaModel temporadaModel = service.save(temporada);
+			return new ResponseEntity<>(temporadaModel, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	@PutMapping("/paises/{id}")
-	public ResponseEntity<PaisModel> updatePais(@PathVariable("id") long id, @RequestBody PaisModel paisModel) {
-		PaisModel response;
+	@PutMapping("/temporadas/{id}")
+	public ResponseEntity<TemporadaModel> updateTemporada(@PathVariable("id") long id, @RequestBody TemporadaModel temporadaModel) {
+		TemporadaModel response;
 		try {
-			response = service.update(id, paisModel);
+			response = service.update(id, temporadaModel);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (NotFoundException e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
-	@DeleteMapping("/paises/{id}")
-	public ResponseEntity<HttpStatus> deletePais(@PathVariable("id") long id) {
+	@DeleteMapping("/temporadas/{id}")
+	public ResponseEntity<HttpStatus> deleteTemporada(@PathVariable("id") long id) {
 		try {
 			service.deleteById(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -135,37 +135,37 @@ public class PaisController {
 		}
 	}
 	
-	/*@GetMapping("/paises")
+	/*@GetMapping("/temporadas")
 	@ResponseBody
-	public ResponseEntity<List<PaisModel>> findByNome(@RequestParam("nome") String nome) {
+	public ResponseEntity<List<TemporadaModel>> findByNome(@RequestParam("nome") String nome) {
 		try {
 
-			List<PaisModel> paises = service.findByNome(nome);
+			List<TemporadaModel> temporadas = service.findByNome(nome);
 
-			if (paises.isEmpty()) {
+			if (temporadas.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 
-			return new ResponseEntity<>(paises, HttpStatus.OK);
+			return new ResponseEntity<>(temporadas, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}*/
 
 	/*
-	 * @DeleteMapping("/paises") public ResponseEntity<HttpStatus> deleteAllPaises()
+	 * @DeleteMapping("/temporadas") public ResponseEntity<HttpStatus> deleteAllTemporadas()
 	 * { try { service.deleteAll(); return new
 	 * ResponseEntity<>(HttpStatus.NO_CONTENT); } catch (Exception e) { return new
 	 * ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); }
 	 * 
 	 * }
 	 * 
-	 * @GetMapping("/paises/published") public ResponseEntity<List<PaisModel>>
-	 * findByPublished() { try { List<PaisModel> paises =
+	 * @GetMapping("/temporadas/published") public ResponseEntity<List<TemporadaModel>>
+	 * findByPublished() { try { List<TemporadaModel> temporadas =
 	 * service.findByPublished(true);
 	 * 
-	 * if (paises.isEmpty()) { return new ResponseEntity<>(HttpStatus.NO_CONTENT); }
-	 * return new ResponseEntity<>(paises, HttpStatus.OK); } catch (Exception e) {
+	 * if (temporadas.isEmpty()) { return new ResponseEntity<>(HttpStatus.NO_CONTENT); }
+	 * return new ResponseEntity<>(temporadas, HttpStatus.OK); } catch (Exception e) {
 	 * return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); } }
 	 */
 

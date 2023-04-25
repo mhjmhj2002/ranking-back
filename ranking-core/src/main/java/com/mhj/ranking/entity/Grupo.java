@@ -6,13 +6,11 @@ package com.mhj.ranking.entity;
 
 import java.io.Serializable;
 import java.util.List;
+
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -33,35 +31,32 @@ public class Grupo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @Column(name = "nome")
     private String nome;
     @OneToMany(mappedBy = "idGrupo", fetch = FetchType.LAZY)
     private List<Jogo> jogoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idGrupo", fetch = FetchType.LAZY)
-    private List<Equipe> equipeList;
 
     public Grupo() {
     }
 
-    public Grupo(Integer id) {
+    public Grupo(Long id) {
         this.id = id;
     }
 
-    public Grupo(Integer id, String nome) {
+    public Grupo(Long id, String nome) {
         this.id = id;
         this.nome = nome;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -79,14 +74,6 @@ public class Grupo implements Serializable {
 
     public void setJogoList(List<Jogo> jogoList) {
         this.jogoList = jogoList;
-    }
-
-    public List<Equipe> getEquipeList() {
-        return equipeList;
-    }
-
-    public void setEquipeList(List<Equipe> equipeList) {
-        this.equipeList = equipeList;
     }
 
     @Override

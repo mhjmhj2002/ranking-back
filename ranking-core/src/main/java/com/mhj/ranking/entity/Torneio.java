@@ -5,18 +5,13 @@
 package com.mhj.ranking.entity;
 
 import java.io.Serializable;
-import java.util.List;
+
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -33,37 +28,30 @@ public class Torneio implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @Column(name = "nome")
     private String nome;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTorneio", fetch = FetchType.LAZY)
-    private List<Temporada> temporadaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTorneio", fetch = FetchType.LAZY)
-    private List<Classificacao> classificacaoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTorneio", fetch = FetchType.LAZY)
-    private List<Jogo> jogoList;
 
     public Torneio() {
     }
 
-    public Torneio(Integer id) {
+    public Torneio(Long id) {
         this.id = id;
     }
 
-    public Torneio(Integer id, String nome) {
+    public Torneio(Long id, String nome) {
         this.id = id;
         this.nome = nome;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -73,30 +61,6 @@ public class Torneio implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public List<Temporada> getTemporadaList() {
-        return temporadaList;
-    }
-
-    public void setTemporadaList(List<Temporada> temporadaList) {
-        this.temporadaList = temporadaList;
-    }
-
-    public List<Classificacao> getClassificacaoList() {
-        return classificacaoList;
-    }
-
-    public void setClassificacaoList(List<Classificacao> classificacaoList) {
-        this.classificacaoList = classificacaoList;
-    }
-
-    public List<Jogo> getJogoList() {
-        return jogoList;
-    }
-
-    public void setJogoList(List<Jogo> jogoList) {
-        this.jogoList = jogoList;
     }
 
     @Override

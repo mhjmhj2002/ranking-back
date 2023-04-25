@@ -5,17 +5,13 @@
 package com.mhj.ranking.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -28,13 +24,13 @@ import lombok.ToString;
  */
 @ToString
 @Entity
-@Table(name = "pais")
+@Table(name = "placar")
 @Data
 @NoArgsConstructor
-@NamedQueries({ @NamedQuery(name = "Pais.findAll", query = "SELECT p FROM Pais p"),
-		@NamedQuery(name = "Pais.findById", query = "SELECT p FROM Pais p WHERE p.id = :id"),
-		@NamedQuery(name = "Pais.findByNome", query = "SELECT p FROM Pais p WHERE p.nome = :nome") })
-public class Pais implements Serializable {
+@NamedQueries({ @NamedQuery(name = "Placar.findAll", query = "SELECT p FROM Placar p"),
+		@NamedQuery(name = "Placar.findById", query = "SELECT p FROM Placar p WHERE p.id = :id"),
+		@NamedQuery(name = "Placar.findByNome", query = "SELECT p FROM Placar p WHERE p.nome = :nome") })
+public class Placar implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -44,10 +40,7 @@ public class Pais implements Serializable {
 
 	@Basic(optional = false)
 	@Column(name = "nome")
-	private String nome;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "idPais", fetch = FetchType.EAGER)
-	private List<Equipe> equipeList;
+	private Long nome;
 
 	@Override
 	public int hashCode() {
@@ -59,10 +52,10 @@ public class Pais implements Serializable {
 	@Override
 	public boolean equals(Object object) {
 		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof Pais)) {
+		if (!(object instanceof Placar)) {
 			return false;
 		}
-		Pais other = (Pais) object;
+		Placar other = (Placar) object;
 		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
 			return false;
 		}

@@ -5,17 +5,18 @@
 package com.mhj.ranking.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -28,26 +29,31 @@ import lombok.ToString;
  */
 @ToString
 @Entity
-@Table(name = "pais")
+@Table(name = "penalti")
 @Data
 @NoArgsConstructor
-@NamedQueries({ @NamedQuery(name = "Pais.findAll", query = "SELECT p FROM Pais p"),
-		@NamedQuery(name = "Pais.findById", query = "SELECT p FROM Pais p WHERE p.id = :id"),
-		@NamedQuery(name = "Pais.findByNome", query = "SELECT p FROM Pais p WHERE p.nome = :nome") })
-public class Pais implements Serializable {
+@NamedQueries({ @NamedQuery(name = "Penalti.findAll", query = "SELECT p FROM Penalti p"),
+		@NamedQuery(name = "Penalti.findById", query = "SELECT p FROM Penalti p WHERE p.id = :id") })
+public class Penalti implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
 	@Column(name = "id")
 	private Long id;
 
-	@Basic(optional = false)
-	@Column(name = "nome")
-	private String nome;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "idPais", fetch = FetchType.EAGER)
-	private List<Equipe> equipeList;
+	@JoinColumn(name = "id_jogo", referencedColumnName = "id")
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	private Jogo idJogo; 
+	
+    @JoinColumn(name = "id_placar_um", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Placar idPlacarUm;
+    
+    @JoinColumn(name = "id_placar_dois", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private Placar idPlacarDois;
 
 	@Override
 	public int hashCode() {
@@ -59,10 +65,10 @@ public class Pais implements Serializable {
 	@Override
 	public boolean equals(Object object) {
 		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof Pais)) {
+		if (!(object instanceof Penalti)) {
 			return false;
 		}
-		Pais other = (Pais) object;
+		Penalti other = (Penalti) object;
 		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
 			return false;
 		}

@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mhj.ranking.config.NotFoundException;
-import com.mhj.ranking.crud.service.PaisService;
-import com.mhj.ranking.model.PaisModel;
+import com.mhj.ranking.model.TorneioModel;
+import com.mhj.ranking.service.TorneioService;
 import com.mhj.ranking.util.AppConstants;
 
 import io.swagger.annotations.ApiOperation;
@@ -30,22 +30,22 @@ import io.swagger.annotations.ApiResponses;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/pais")
+@RequestMapping("/torneio")
 //@Slf4j
-public class PaisController {
+public class TorneioController {
 
 	@Autowired
-	private PaisService service;
+	private TorneioService service;
 
-	@ApiOperation(value = "Retorna uma lista de paises")
+	@ApiOperation(value = "Retorna uma lista de torneios")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Retorna a lista de paises"),
+			@ApiResponse(code = 200, message = "Retorna a lista de torneios"),
 			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 			@ApiResponse(code = 500, message = "Foi gerada uma exceção"),
 	})
-	@GetMapping("/paises")
+	@GetMapping("/torneios")
 	@ResponseBody
-	public ResponseEntity<Page<PaisModel>> getAll(
+	public ResponseEntity<Page<TorneioModel>> getAll(
             @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
@@ -53,27 +53,27 @@ public class PaisController {
 			) {
 		try {
 
-			Page<PaisModel> paises = service.findAll(pageNo, pageSize, sortBy, sortDir);
+			Page<TorneioModel> torneios = service.findAll(pageNo, pageSize, sortBy, sortDir);
 
-			if (paises.isEmpty()) {
+			if (torneios.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 
-			return new ResponseEntity<>(paises, HttpStatus.OK);
+			return new ResponseEntity<>(torneios, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	@ApiOperation(value = "Retorna uma lista de paises")
+	@ApiOperation(value = "Retorna uma lista de torneios")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Retorna a lista de paises"),
+			@ApiResponse(code = 200, message = "Retorna a lista de torneios"),
 			@ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
 			@ApiResponse(code = 500, message = "Foi gerada uma exceção"),
 	})
-	@GetMapping("/paises/last")
+	@GetMapping("/torneios/last")
 	@ResponseBody
-	public ResponseEntity<List<PaisModel>> getLast(
+	public ResponseEntity<List<TorneioModel>> getLast(
             @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
@@ -81,52 +81,52 @@ public class PaisController {
 			) {
 		try {
 
-			List<PaisModel> paises = service.findLast(pageNo, pageSize, sortBy, sortDir);
+			List<TorneioModel> torneios = service.findLast(pageNo, pageSize, sortBy, sortDir);
 
-			if (paises.isEmpty()) {
+			if (torneios.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 
-			return new ResponseEntity<>(paises, HttpStatus.OK);
+			return new ResponseEntity<>(torneios, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	@GetMapping("/paises/{id}")
-	public ResponseEntity<PaisModel> getPaisById(@PathVariable("id") Long id) {
-		Optional<PaisModel> paisData = service.findById(id);
+	@GetMapping("/torneios/{id}")
+	public ResponseEntity<TorneioModel> getTorneioById(@PathVariable("id") Long id) {
+		Optional<TorneioModel> torneioData = service.findById(id);
 
-		if (paisData.isPresent()) {
-			return new ResponseEntity<>(paisData.get(), HttpStatus.OK);
+		if (torneioData.isPresent()) {
+			return new ResponseEntity<>(torneioData.get(), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
-	@PostMapping("/paises")
-	public ResponseEntity<PaisModel> save(@RequestBody PaisModel pais) {
+	@PostMapping("/torneios")
+	public ResponseEntity<TorneioModel> save(@RequestBody TorneioModel torneio) {
 		try {
-			PaisModel paisModel = service.save(pais);
-			return new ResponseEntity<>(paisModel, HttpStatus.CREATED);
+			TorneioModel torneioModel = service.save(torneio);
+			return new ResponseEntity<>(torneioModel, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
-	@PutMapping("/paises/{id}")
-	public ResponseEntity<PaisModel> updatePais(@PathVariable("id") long id, @RequestBody PaisModel paisModel) {
-		PaisModel response;
+	@PutMapping("/torneios/{id}")
+	public ResponseEntity<TorneioModel> updateTorneio(@PathVariable("id") long id, @RequestBody TorneioModel torneioModel) {
+		TorneioModel response;
 		try {
-			response = service.update(id, paisModel);
+			response = service.update(id, torneioModel);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (NotFoundException e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
-	@DeleteMapping("/paises/{id}")
-	public ResponseEntity<HttpStatus> deletePais(@PathVariable("id") long id) {
+	@DeleteMapping("/torneios/{id}")
+	public ResponseEntity<HttpStatus> deleteTorneio(@PathVariable("id") long id) {
 		try {
 			service.deleteById(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -135,37 +135,37 @@ public class PaisController {
 		}
 	}
 	
-	/*@GetMapping("/paises")
+	/*@GetMapping("/torneios")
 	@ResponseBody
-	public ResponseEntity<List<PaisModel>> findByNome(@RequestParam("nome") String nome) {
+	public ResponseEntity<List<TorneioModel>> findByNome(@RequestParam("nome") String nome) {
 		try {
 
-			List<PaisModel> paises = service.findByNome(nome);
+			List<TorneioModel> torneios = service.findByNome(nome);
 
-			if (paises.isEmpty()) {
+			if (torneios.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 
-			return new ResponseEntity<>(paises, HttpStatus.OK);
+			return new ResponseEntity<>(torneios, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}*/
 
 	/*
-	 * @DeleteMapping("/paises") public ResponseEntity<HttpStatus> deleteAllPaises()
+	 * @DeleteMapping("/torneios") public ResponseEntity<HttpStatus> deleteAllTorneios()
 	 * { try { service.deleteAll(); return new
 	 * ResponseEntity<>(HttpStatus.NO_CONTENT); } catch (Exception e) { return new
 	 * ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); }
 	 * 
 	 * }
 	 * 
-	 * @GetMapping("/paises/published") public ResponseEntity<List<PaisModel>>
-	 * findByPublished() { try { List<PaisModel> paises =
+	 * @GetMapping("/torneios/published") public ResponseEntity<List<TorneioModel>>
+	 * findByPublished() { try { List<TorneioModel> torneios =
 	 * service.findByPublished(true);
 	 * 
-	 * if (paises.isEmpty()) { return new ResponseEntity<>(HttpStatus.NO_CONTENT); }
-	 * return new ResponseEntity<>(paises, HttpStatus.OK); } catch (Exception e) {
+	 * if (torneios.isEmpty()) { return new ResponseEntity<>(HttpStatus.NO_CONTENT); }
+	 * return new ResponseEntity<>(torneios, HttpStatus.OK); } catch (Exception e) {
 	 * return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); } }
 	 */
 

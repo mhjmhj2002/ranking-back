@@ -22,7 +22,7 @@
 		<lombok.version>1.18.24</lombok.version>
 		<swagger.version>3.0.0</swagger.version>
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -69,11 +69,16 @@
 			<artifactId>mapstruct</artifactId>
 			<version>${mapstruct.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
 			<version>${swagger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 
 	</dependencies>
